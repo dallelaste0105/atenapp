@@ -4,11 +4,21 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 async function SignUpController(req, res) {
-    const {name, email, password, position} = req.body;
-    const crypt_password = await bcrypt.hash(password, 10);
+    const {name, email, password, cod} = req.body;
+    
     try{
-        await credentialModel.UserSignUpModel(name,email,crypt_password);
-        res.status(200).json({message: "UserSignUpControllerSuccess"});
+      if (await credentialModel.IsSchool(cod)) {
+        if (await credentialModel.IsTeacher(name, cod)) {
+          
+        } else {
+          
+          res.status(500).json({message:"IsStudent"})
+        }
+      }
+      else{
+        res.status(500).json({message: "Schoolwasnotfind"})
+      }
+        
     }
     catch{
         res.status(500).json({message: "UserSignUpControllerError"});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:muto_system/views/credentialView.dart';
+import 'package:muto_system/views/credentialViews/signupView.dart';
 
 void main() => runApp(myApp());
 

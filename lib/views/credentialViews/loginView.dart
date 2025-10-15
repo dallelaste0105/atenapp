@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muto_system/views/testView.dart';
-import '../connections/credentialConnection.dart';
+import 'package:muto_system/connections/credentialConnection.dart';
 
 class Credentialview extends StatefulWidget {
   @override
@@ -49,31 +49,28 @@ class _CredentialviewState extends State<Credentialview> {
               obscureText: true,
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                try {
-                  if (cod.text.isEmpty) {
-                    final LoginAnswer = await Login(name.text, email.text, password.text, cod.text);
-                    if (LoginAnswer == 200) {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Credentialview()));
-                      showSnack('Usuário cadastrado com sucesso!', true);
-                    } else {
-                      showSnack('Erro ao cadastrar usuário.', false);
-                    }
-                  } else {
-                    final SignUpAnswer = await SignUp(name.text, email.text, password.text, cod.text);
+          
+            ElevatedButton(onPressed: () async {
+              try {
+                final SignUpAnswer = await SignUp(name.text, email.text, password.text, cod.text);
                     if (SignUpAnswer == 200) {
                       showSnack('Aluno cadastrado com sucesso!', true);
-                    } else {
-                      showSnack('Erro ao cadastrar administrador.', false);
+                    } 
+                    if (SignUpAnswer == 201) {
+                      showSnack('Professor cadastrado com sucesso!', true);
                     }
-                  }
-                } catch (e) {
-                  showSnack('Erro inesperado: $e', false);
-                }
-              },
-              child: Text("SignUp"),
-            ),
+                    else {
+                      showSnack('Erro ao cadastrar', false);
+                    }
+              } catch (e) {
+                showSnack('Erro inesperado: $e', false);
+              }
+            }, child: Column(children: [
+            Text("Fazer login como: "),
+            ElevatedButton(onPressed: (){}, child: Text("Student")),
+            ElevatedButton(onPressed: (){}, child: Text("Teacher")),
+            ElevatedButton(onPressed: (){}, child: Text("School"))
+            ]))
           ],
         ),
       ),
