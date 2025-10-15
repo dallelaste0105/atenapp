@@ -1,32 +1,36 @@
-const credentialModel = require("../models/credentialModel");//arquivo que contem as funções do model
-const bcrypt = require('bcrypt');//biblioteca de criptografia
-const jwt = require('jsonwebtoken');//biblioteca para tokens
+const credentialModel = require("../models/credentialModel");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-async function credentialControllerSignup(req, res) { //nome padronizado com nome do arquivo mais sua função
-    const {name, email, password, school_name, your_code} = req.body;//armazenar os valores da requisição
+async function credentialControllerSignup(req, res) {
+    const {name, email, password, school_name, your_code} = req.body;//store request values
     
-    try{//assincronismo
-      const whichSchool = await credentialModel.whichSchool(school_name);//verificar qual é a escola
-      const school_id = whichSchool.id;//salvar o id da escola
-      const teacher_code = whichSchool.teachercode;//salvar o código de professor da escola
-      const student_code = whichSchool.studentcode;//salvar o código de estudante da escola
+    try{
+      const whichSchool = await credentialModel.whichSchool(school_name);//check which school it is
+      const school_id = whichSchool.id;//save the school's id
+      const teacher_code = whichSchool.teachercode;//save the school's teacher code
+      const student_code = whichSchool.studentcode;//save the school's student code
 
-      if (teacher_code == your_code) {//verificar se é professor
-        await credentialModel.teacherSignup(name, email, password);
-        const teacher = await credentialModel.searchTeacher(name);
-        await credentialModel.doSchoolTeacherRelation(school_id, teacher.id);
+      if (teacher_code == your_code) {//check if it's a teacher
+        const bcrypt_password = await bcrypt.hash(password, 10);//hash the password
+        await credentialModel.teacherSignup(name, email, bcrypt_password);//insert into teacher table
+        const teacher = await credentialModel.searchTeacher(name);//create an object from teacher table
+        await credentialModel.doSchoolTeacherRelation(school_id, teacher.id);//insert the ids into the relation table
+        res.status(200).json({message: "credentialControllerSignup200"});
       }
 
-      if (student_code == your_code) {//verificar se é aluno
-        await credentialModel.studentSignup(name, email, password)
-        const student = await credentialModel.searchStudent(name);
-        await credentialModel.doSchoolStudentRelation(school_id, teacher.id);
+      if (student_code == your_code) {//check if it's a student
+        const bcrypt_password = await bcrypt.hash(password, 10);
+        await credentialModel.studentSignup(name, email, bcrypt_password)//insert into student table
+        const student = await credentialModel.searchStudent(name);//create an object from student table
+        await credentialModel.doSchoolStudentRelation(school_id, teacher.id);//insert the ids into the relation table
+        res.status(200).json({message: "credentialControllerSignup201"});
       }
     }
 
     catch{
-        res.status(500).json({message: "UserSignUpControllerError"});
+        res.status(200).json({message: "credentialControllerSignup500"});
     }
 };
 
