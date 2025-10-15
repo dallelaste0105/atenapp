@@ -1,5 +1,7 @@
 const db = require("../db");
 
+// Returns the school row matching the provided school_name.
+// Resolves with the first row object if found, rejects with 500 on error or if not found.
 async function credentialModelWhichSchool(school_name) {
   return new Promise((resolve, reject) => {
     const query = "SELECT * FROM school WHERE name = ?";
@@ -16,6 +18,8 @@ async function credentialModelWhichSchool(school_name) {
   });
 }
 
+// Inserts a new teacher row with the provided name, email, and password.
+// Resolves with 200 on success, rejects with 500 on error.
 async function credentialModelTeacherSignup(name, email, password) {
   return new Promise((resolve, reject) => {
     const query = "INSERT INTO teacher name = ? AND email = ? AND password = ?";
@@ -30,6 +34,8 @@ async function credentialModelTeacherSignup(name, email, password) {
   });
 }
 
+// Inserts a new student row with the provided name, email, and password.
+// Resolves with 200 on success, rejects with 500 on error.
 async function credentialModelStudentSignup(name, email, password) {
   return new Promise((resolve, reject) => {
     const query = "INSERT INTO student name = ? AND email = ? AND password = ?";
@@ -44,6 +50,8 @@ async function credentialModelStudentSignup(name, email, password) {
   });
 }
 
+// Returns the teacher row matching the provided name.
+// Resolves with the first row object if found, rejects with 500 on error or if not found.
 async function credentialModelSearchTeacher(name) {
   return new Promise((resolve, reject) => {
     const query = "SELECT * FROM teacher WHERE name = ?";
@@ -60,6 +68,8 @@ async function credentialModelSearchTeacher(name) {
   });
 }
 
+// Returns the student row matching the provided name.
+// Resolves with the first row object if found, rejects with 500 on error or if not found.
 async function credentialModelSearchStudent(name) {
   return new Promise((resolve, reject) => {
     const query = "SELECT * FROM student WHERE name = ?";
@@ -76,6 +86,8 @@ async function credentialModelSearchStudent(name) {
   });
 }
 
+// Creates a relation between a school and a teacher using their IDs.
+// Resolves with 200 on success, rejects with 500 on error.
 async function credentialModelDoSchoolTeacherRelation(school_id, teacher_id) {
   return new Promise((resolve, reject) => {
     const query = "INSERT INTO schoolteacher school_id = ? AND teacher_id = ?";
@@ -90,6 +102,8 @@ async function credentialModelDoSchoolTeacherRelation(school_id, teacher_id) {
   });
 }
 
+// Creates a relation between a school and a student using their IDs.
+// Resolves with 200 on success, rejects with 500 on error.
 async function credentialModelDoSchoolStudentRelation(school_id, student_id) {
   return new Promise((resolve, reject) => {
     const query = "INSERT INTO schoolteacher school_id = ? AND teacher_id = ?";
@@ -103,5 +117,6 @@ async function credentialModelDoSchoolStudentRelation(school_id, student_id) {
     });
   });
 }
+
 
 module.exports = {credentialModelWhichSchool, credentialModelTeacherSignup, credentialModelStudentSignup, credentialModelSearchTeacher, credentialModelSearchStudent, credentialModelDoSchoolTeacherRelation, credentialModelDoSchoolStudentRelation};

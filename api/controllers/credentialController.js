@@ -34,4 +34,12 @@ async function credentialControllerSignup(req, res) {
     }
 };
 
-module.exports = {credentialControllerSignup};
+async function credentialControllerLogin(req, res) {
+  try {
+    
+  } catch (error) {
+    
+  }
+}
+
+module.exports = {credentialControllerSignup, credentialControllerLogin};
