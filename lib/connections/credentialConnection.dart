@@ -16,10 +16,13 @@ Future<int> signup(name, email, password, school_name, your_code) async {
         "your_code": your_code,
       }),
     );
-    return 0;
+    if (res.statusCode == 200) {
+      return 200;
+    }
+    return 500;
     
 }
   catch(error){
-    return 0;
+    return 500;
   }
 }

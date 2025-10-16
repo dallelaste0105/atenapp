@@ -15,6 +15,7 @@ class _CredentialViewState extends State<CredentialView> {
   final TextEditingController name = TextEditingController();
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
+  final TextEditingController school_name = TextEditingController();
   final TextEditingController cod = TextEditingController();
 
   void showSnack(String message, bool success) {
@@ -81,9 +82,9 @@ class _CredentialViewState extends State<CredentialView> {
                   const SizedBox(height: 12),
 
                   TextField(
-                    obscureText: true,
+                    controller: school_name,
                     decoration: InputDecoration(
-                      labelText: "CONFIRMAR SENHA",
+                      labelText: "NOME DA ESCOLA",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
@@ -94,7 +95,7 @@ class _CredentialViewState extends State<CredentialView> {
                     controller: cod,
                     obscureText: true,
                     decoration: InputDecoration(
-                      labelText: "SignUp token",
+                      labelText: "SEU CÓDIGO",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
@@ -127,19 +128,17 @@ class _CredentialViewState extends State<CredentialView> {
                   ElevatedButton(
                     onPressed: () async {
                       try {
-                        // ignore: non_constant_identifier_names
-                        final SignUpAnswer = await SignUp(
+                        final SignUpAnswer = await signup(
                           name.text,
                           email.text,
                           password.text,
+                          school_name.text,
                           cod.text,
                         );
                         if (SignUpAnswer == 200) {
-                          showSnack('Aluno cadastrado com sucesso!', true);
+                          showSnack('Algo cadastrado com sucesso!', true);
                         }
-                        if (SignUpAnswer == 201) {
-                          showSnack('Professor cadastrado com sucesso!', true);
-                        } else {
+                        else {
                           showSnack('Erro ao cadastrar', false);
                         }
                       } catch (e) {

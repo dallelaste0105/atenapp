@@ -31,7 +31,7 @@ async function credentialControllerSignup(req, res) {
       else{
         const bcrypt_password = await bcrypt.hash(password, 10);
         await credentialModelUserSignup(name, email, bcrypt_password);
-        res.status(200).json({message: "credentialControllerSignup201"});
+        res.status(200).json({message: "credentialControllerSignup202"});
       }
     }
 
