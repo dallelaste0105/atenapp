@@ -1,9 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'package:http/browser_client.dart';
-
-
 Future<int> SignUp(String name, String email, String password, String cod) async {
   try {
     final url = Uri.parse("http://localhost:3000/signup");
