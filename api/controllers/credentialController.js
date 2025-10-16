@@ -50,20 +50,42 @@ async function credentialControllerLogin(req, res) {
   const {name, password, user_type} = req.body;//A VERIFICAÇÃO SE É ALUNO/PROFESSOR/ESCOLA DEVE SER FEITA AINDA NO CONNECTIONS(FUNÇÃO DIFERENTE PRA CADA UMA [CADA UMA CHAMADA POR UM BOTÃO DIFERENTE DA PÁGINA])
   try {
     if (user_type == user) {
-      
+      const user = await credentialModel.credentialModelUserLogin("user", name);
+      if (await bcrypt.compare(password, user.password)) {
+        res.status(200).json({message:user.id})
+      }
+      else{
+        res.status(500).json({message:"credentialControllerLogin500"})
+      }
     }
     if (user_type == student) {
-      const student = await credentialModel.credentialModelMainTableLoginVerification(student, name);
-      if (bcrypt.compare(password, student.password)) {
+      const student = await credentialModel.credentialModelMainTableLoginVerification("student", name);
+      if (await bcrypt.compare(password, student.password)) {
         const school = await credentialModel.credentialModelRelationTableLoginVerification("schoolstudent", "student_id", student.id);
-        //enviar como resposta os dados importantes da escola e do aluno, ou ao menos o id deles
+        res.status(200).json({"student_id":student.id, "school_id":school.id});
+      }
+      else{
+        res.status(500).json({message:"credentialControllerLogin501"})
       }
     }
     if (user_type == teacher) {
-      
+      const teacher = await credentialModel.credentialModelMainTableLoginVerification("teacher", name);
+      if (bcrypt.compare(password, teacher.password)) {
+        const school = await credentialModel.credentialModelRelationTableLoginVerification("schoolteacher", "teacher_id", teacher.id);
+        res.status(200).json({"teacher_id":student.id, "school_id":school.id});
+      }
+      else{
+        res.status(500).json({message:"credentialControllerLogin502"})
+      }
     }
     if (user_type == school) {
-      
+      const school = await credentialModel.credentialModelUserLogin("school", name);
+      if (await bcrypt.compare(password, user.password)) {
+        res.status(200).json({message:school.id})
+      }
+      else{
+        res.status(500).json({message:"credentialControllerLogin503"})
+      }
     }
   } catch (error) {
     
