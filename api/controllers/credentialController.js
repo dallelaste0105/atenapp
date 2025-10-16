@@ -20,30 +20,30 @@ async function credentialControllerSignup(req, res) {
         res.status(200).json({message: 200});
       }
 
-      if (student_code == your_code) {//check if it's a student
+      else if (student_code == your_code) {//check if it's a student
         const bcrypt_password = await bcrypt.hash(password, 10);
         await credentialModel.credentialModelStudentSignup(name, email, bcrypt_password)//insert into student table
         const student = await credentialModel.credentialModelSearchStudent(name);//create an object from student table
-        await credentialModel.credentialModelDoSchoolStudentRelation(school_id, teacher.id);//insert the ids into the relation table
+        await credentialModel.credentialModelDoSchoolStudentRelation(school_id, student.id);//insert the ids into the relation table
         res.status(200).json({message: 201});
       }
 
       else{
         const bcrypt_password = await bcrypt.hash(password, 10);
-        await credentialModelUserSignup(name, email, bcrypt_password);
+        await credentialModel.credentialModelUserSignup(name, email, bcrypt_password);
         res.status(200).json({message: 202});
       }
     }
 
     catch{
-        res.status(500).json({message: 500});
+        res.status(500).json({message: 501});
     }
 };
 
 async function credentialControllerLogin(req, res) {
   const {name, password, user_type} = req.body;//A VERIFICAÇÃO SE É ALUNO/PROFESSOR/ESCOLA DEVE SER FEITA AINDA NO CONNECTIONS(FUNÇÃO DIFERENTE PRA CADA UMA [CADA UMA CHAMADA POR UM BOTÃO DIFERENTE DA PÁGINA])
   try {
-    if (user_type == user) {
+    if (user_type == "user") {
       const user = await credentialModel.credentialModelUserSchoolLogin("user", name);
       if (await bcrypt.compare(password, user.password)) {
         res.status(200).json({message:user.id})
@@ -52,7 +52,7 @@ async function credentialControllerLogin(req, res) {
         res.status(500).json({message:"credentialControllerLogin500"})
       }
     }
-    if (user_type == student) {
+    if (user_type == "student") {
       const student = await credentialModel.credentialModelMainTableLoginVerification("student", name);
       if (await bcrypt.compare(password, student.password)) {
         const school = await credentialModel.credentialModelRelationTableLoginVerification("schoolstudent", "student_id", student.id);
@@ -62,7 +62,7 @@ async function credentialControllerLogin(req, res) {
         res.status(500).json({message:"credentialControllerLogin501"})
       }
     }
-    if (user_type == teacher) {
+    if (user_type == "teacher") {
       const teacher = await credentialModel.credentialModelMainTableLoginVerification("teacher", name);
       if (bcrypt.compare(password, teacher.password)) {
         const school = await credentialModel.credentialModelRelationTableLoginVerification("schoolteacher", "teacher_id", teacher.id);
@@ -72,7 +72,7 @@ async function credentialControllerLogin(req, res) {
         res.status(500).json({message:"credentialControllerLogin502"})
       }
     }
-    if (user_type == school) {
+    if (user_type == "school") {
       const school = await credentialModel.credentialModelUserLogin("school", name);
       if (await bcrypt.compare(password, user.password)) {
         res.status(200).json({message:school.id})

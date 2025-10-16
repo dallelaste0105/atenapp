@@ -135,7 +135,7 @@ class _CredentialViewState extends State<CredentialView> {
                           school_name.text,
                           cod.text,
                         );
-                        if (SignUpAnswer == 200) {
+                        if (SignUpAnswer == 200 || SignUpAnswer == 201 || SignUpAnswer == 202 || SignUpAnswer == 203){
                           showSnack('Algo cadastrado com sucesso!', true);
                         }
                         else {
