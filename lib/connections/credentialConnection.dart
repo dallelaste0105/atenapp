@@ -1,18 +1,25 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-Future<int> SignUp(String name, String email, String password, String cod) async {
+Future<int> signup(name, email, password, school_name, your_code) async {
   try {
-    final url = Uri.parse("http://localhost:3000/signup");
+    final url = Uri.parse("http://localhost:3000/credential/signup");
 
     final res = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'name': name, 'email': email, 'password': password, 'cod': cod}),
+      body: jsonEncode({
+        "name": name,
+        "email": email,
+        "password": password,
+        "school_name": school_name,
+        "your_code": your_code,
+      }),
     );
-
-    return res.statusCode == 200 ? 200 : 500;
-  } catch (e) {
-    return 500;
+    return 0;
+    
+}
+  catch(error){
+    return 0;
   }
 }

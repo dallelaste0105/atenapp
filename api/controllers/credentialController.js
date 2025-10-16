@@ -40,12 +40,6 @@ async function credentialControllerSignup(req, res) {
     }
 };
 
-/*
--verifica se é de fato um aluno/professor/escola/usuário
--verificar qual escola é (armazena o id)
--procura na tabela de relação
--verifica na tabela aluno/professor pra ver se a senha tá certa
-*/
 async function credentialControllerLogin(req, res) {
   const {name, password, user_type} = req.body;//A VERIFICAÇÃO SE É ALUNO/PROFESSOR/ESCOLA DEVE SER FEITA AINDA NO CONNECTIONS(FUNÇÃO DIFERENTE PRA CADA UMA [CADA UMA CHAMADA POR UM BOTÃO DIFERENTE DA PÁGINA])
   try {
