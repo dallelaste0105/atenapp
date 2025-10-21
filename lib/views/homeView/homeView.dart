@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:muto_system/views/userViews/userHomeView.dart';
+import 'package:muto_system/views/credentialViews/signupView.dart';
 
 class HomeView extends StatefulWidget {
   final String token;
@@ -33,7 +33,7 @@ class _HomeViewState extends State<HomeView> {
         children: [
           const ColoredPage(color: Colors.blue, title: 'Página 1'),
           const ColoredPage(color: Colors.green, title: 'Página 2'),
-          UserProfileView(token: widget.token), // sem const
+  // sem const
           const ColoredPage(color: Colors.orange, title: 'Página 4'),
           const ColoredPage(color: Colors.purple, title: 'Página 5'),
         ],

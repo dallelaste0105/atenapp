@@ -88,7 +88,7 @@ class _CredentialViewLoginState extends State<CredentialViewLogin> {
                         debugPrint("tentando logar");
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => HomeView()),
+                          MaterialPageRoute(builder: (context) => HomeView(token: '',)),
                         );
                       },
                       child: const Text(

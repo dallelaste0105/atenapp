@@ -128,21 +128,22 @@ class _CredentialViewState extends State<CredentialView> {
                   ElevatedButton(
                     onPressed: () async {
                       try {
-                        final SignUpAnswer = await signup(
+                        final SignUpAnswer = await signupCredentialConnection(
                           name.text,
                           email.text,
                           password.text,
                           schoolname.text,
                           cod.text,
                         );
-                        if (SignUpAnswer == 200 ||
-                            SignUpAnswer == 201 ||
-                            SignUpAnswer == 202 ||
-                            SignUpAnswer == 203) {
-                          showSnack('Algo cadastrado com sucesso!', true);
-                        } else {
-                          showSnack('Erro ao cadastrar', false);
+
+                        switch (SignUpAnswer) {
+                          case "Campos obrigatórios faltando!":
+                            showSnack(SignUpAnswer, false);
+                            break;
+                          default:
+                          showSnack('Algo deu errado', false);
                         }
+                        
                       } catch (e) {
                         showSnack('Erro inesperado: $e', false);
                       }
