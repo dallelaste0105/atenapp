@@ -15,7 +15,7 @@ class _CredentialViewState extends State<CredentialView> {
   final TextEditingController name = TextEditingController();
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
-  final TextEditingController school_name = TextEditingController();
+  final TextEditingController schoolname = TextEditingController();
   final TextEditingController cod = TextEditingController();
 
   void showSnack(String message, bool success) {
@@ -82,7 +82,7 @@ class _CredentialViewState extends State<CredentialView> {
                   const SizedBox(height: 12),
 
                   TextField(
-                    controller: school_name,
+                    controller: schoolname,
                     decoration: InputDecoration(
                       labelText: "NOME DA ESCOLA",
                       border: OutlineInputBorder(
@@ -132,13 +132,15 @@ class _CredentialViewState extends State<CredentialView> {
                           name.text,
                           email.text,
                           password.text,
-                          school_name.text,
+                          schoolname.text,
                           cod.text,
                         );
-                        if (SignUpAnswer == 200 || SignUpAnswer == 201 || SignUpAnswer == 202 || SignUpAnswer == 203){
+                        if (SignUpAnswer == 200 ||
+                            SignUpAnswer == 201 ||
+                            SignUpAnswer == 202 ||
+                            SignUpAnswer == 203) {
                           showSnack('Algo cadastrado com sucesso!', true);
-                        }
-                        else {
+                        } else {
                           showSnack('Erro ao cadastrar', false);
                         }
                       } catch (e) {

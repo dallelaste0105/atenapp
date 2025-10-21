@@ -121,7 +121,10 @@ class ProfilePage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text('Todas as Conquistas'),
+                    child: const Text(
+                      'Todas as Conquistas',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                   const SizedBox(height: 12),
                   Row(
