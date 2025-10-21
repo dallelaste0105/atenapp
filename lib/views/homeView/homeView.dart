@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:muto_system/views/championshipViews/championshipView.dart';
-import 'package:muto_system/views/friendsandschoolViews/friendsAndSchoolView.dart';
-import 'package:muto_system/views/notificationViewTest/notificationViewTest.dart';
-import 'package:muto_system/views/profileViews/profileView.dart';
-import 'package:muto_system/views/subjectsViews/subjectAllView.dart';
+import 'package:muto_system/views/userViews/userHomeView.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({super.key});
+  final String token;
+  const HomeView({super.key, required this.token});
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -32,22 +29,15 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       body: PageView(
         controller: _controller,
-        scrollDirection: Axis.horizontal,
-        onPageChanged: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+        onPageChanged: (index) => setState(() => _currentIndex = index),
         children: [
-          SubjectProgressPage(),
-          const NotificationTest(),
-          const ProfilePage(),
-          ChampionshipView(),
-          FriendsAndSchoolView(),
+          const ColoredPage(color: Colors.blue, title: 'Página 1'),
+          const ColoredPage(color: Colors.green, title: 'Página 2'),
+          UserProfileView(token: widget.token), // sem const
+          const ColoredPage(color: Colors.orange, title: 'Página 4'),
+          const ColoredPage(color: Colors.purple, title: 'Página 5'),
         ],
       ),
-
-      // === Bottom Navigation Bar ===
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: _onItemTapped,
@@ -62,7 +52,6 @@ class _HomeViewState extends State<HomeView> {
             label: 'Ranking',
           ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
-
           BottomNavigationBarItem(
             icon: Icon(Icons.emoji_events),
             label: 'Campeonatos',
