@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:muto_system/views/credentialViews/signupView.dart';
 import 'package:muto_system/configs/colors.dart' as ThemeColors;
+import 'package:muto_system/views/homeView/homeView.dart';
 
 class CredentialViewLogin extends StatefulWidget {
   const CredentialViewLogin({super.key});
@@ -85,6 +86,10 @@ class _CredentialViewLoginState extends State<CredentialViewLogin> {
                       ),
                       onPressed: () {
                         debugPrint("tentando logar");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeView()),
+                        );
                       },
                       child: const Text(
                         "Login",
