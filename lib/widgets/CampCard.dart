@@ -21,7 +21,7 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 125,
+      height: 150,
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),

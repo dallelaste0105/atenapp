@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:muto_system/views/credentialViews/signupView.dart';
+import 'package:muto_system/views/studentViews/championshipViews/championshipView.dart';
+import 'package:muto_system/views/studentViews/friendsandschoolViews/friendsAndSchoolView.dart';
+import 'package:muto_system/views/studentViews/profileViews/profileView.dart';
+import 'package:muto_system/views/studentViews/subjectsViews/subjectAllView.dart';
+import 'package:muto_system/views/userViews/credentialViews/signupView.dart';
 
 class HomeView extends StatefulWidget {
   final String token;
@@ -31,11 +35,11 @@ class _HomeViewState extends State<HomeView> {
         controller: _controller,
         onPageChanged: (index) => setState(() => _currentIndex = index),
         children: [
-          const ColoredPage(color: Colors.blue, title: 'Página 1'),
-          const ColoredPage(color: Colors.green, title: 'Página 2'),
-  // sem const
-          const ColoredPage(color: Colors.orange, title: 'Página 4'),
-          const ColoredPage(color: Colors.purple, title: 'Página 5'),
+          SubjectProgressPage(),
+          const ColoredPage(color: Colors.green, title: 'Ranking'),
+          ProfilePage(),
+          ChampionshipPage(),
+          FriendsAndSchoolPage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

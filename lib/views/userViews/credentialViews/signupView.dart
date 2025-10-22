@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:muto_system/connections/credentialConnection.dart';
-import 'package:muto_system/views/credentialViews/loginView.dart';
+import 'package:muto_system/views/userViews/credentialViews/loginView.dart';
 import 'package:muto_system/configs/colors.dart' as ThemeColors;
 
 class CredentialView extends StatefulWidget {
@@ -134,16 +134,17 @@ class _CredentialViewState extends State<CredentialView> {
                           password.text,
                           schoolname.text,
                           cod.text,
+                          '',
                         );
 
                         switch (SignUpAnswer) {
+                          // ignore: constant_pattern_never_matches_value_type
                           case "Campos obrigatórios faltando!":
-                            showSnack(SignUpAnswer, false);
+                            showSnack(SignUpAnswer as String, false);
                             break;
                           default:
-                          showSnack('Algo deu errado', false);
+                            showSnack('Algo deu errado', false);
                         }
-                        
                       } catch (e) {
                         showSnack('Erro inesperado: $e', false);
                       }
