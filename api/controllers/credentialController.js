@@ -127,11 +127,53 @@ async function credentialControllerLogin(req, res) {
 }
 
 async function schoolSignupCredentialController(req, res) {
-    const {name, email, password, teacherCode, studentCode} = req.body;
+    const {name, email, password, schoolCode, teacherCode, studentCode} = req.body;
+
+    try {
+        if (!name || !email || !password) {
+            return res.status(500).json({ message: 'Campos obrigatórios faltando!' });
+        }
+        else if (schoolName && !yourCode) {
+            return res.status(500).json({ message: 'Você precisa de um código!' });
+        }
+        else if(!schoolName && yourCode){
+            return res.status(500).json({ message: 'Todo código tem uma escola!' });
+        }
+        else if(await credentialModel.credentialModelMainTableLoginVerification('user', name) || await credentialModel.credentialModelMainTableLoginVerification('student', name) || await credentialModel.credentialModelMainTableLoginVerification('teacher', name) || await credentialModel.credentialModelMainTableLoginVerification('school', name)){
+            return res.status(500).json({message:"Já existe um usuário com esse nome"});
+        }
+        if (await credentialModelVerifySchoolCode(schoolCode)) {
+            const bcrypt_password = await bcrypt.hash(password, 10);
+            if (await credentialModel.credentialModelSchoolSignup(name, email, password, schoolCode, teacherCode, studentCode)) {
+                return res.status(200).json({message:"Escola se cadastrou com sucesso"})
+            }
+        }
+    } catch (error) {
+        
+    }
 }
 
 async function schoolLoginCredentialController(req, res) {
     const {name, password} = req.body;
+    try {
+        if (!name || !password) {
+            return res.status(500).json({ message: 'Campos obrigatórios faltando!' });
+        }
+            const school = await credentialModel.credentialModelMainTableLoginVerification("school", name);
+            if (!school){
+                return res.status(500).json({ message: 'Escola não encontrada' });
+            }
+            const passwordMatch = await bcrypt.compare(password, user.password);
+            if (passwordMatch) {
+                const createdJwt = createJwt(name);
+                return res.status(200).json({ token: createdJwt }); 
+            }
+            return res.status(500).json({ message: 'Credenciais inválidas' });
+        
+    } catch (error) {
+        console.error('credentialControllerLogin error:', error);
+        return res.status(500).json({ message: 'Erro no servidor' });
+    }
 }
 
 module.exports = { credentialControllerSignup, credentialControllerLogin,

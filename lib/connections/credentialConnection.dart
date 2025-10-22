@@ -3,9 +3,9 @@ import 'package:http/http.dart' as http;
 
 const String baseUrl = "http://localhost:3000";
 
-Future<String> signupCredentialConnection(name, email, password, teacherCode, studentCode) async {
+Future<String> signupCredentialConnection(name, email, password, schoolName, yourCode) async {
   try {
-    final url = Uri.parse("http://localhost:3000/credential/schoolsignup");
+    final url = Uri.parse("$baseUrl/credential/schoolsignup");
 
     final res = await http.post(
       url,
@@ -14,8 +14,8 @@ Future<String> signupCredentialConnection(name, email, password, teacherCode, st
         "name": name,
         "email": email,
         "password": password,
-        "teacherCode": teacherCode,
-        "studentCode": studentCode,
+        "schoolName": schoolName,
+        "yourCode": yourCode,
       }),
     );
 
@@ -31,19 +31,17 @@ Future<String> signupCredentialConnection(name, email, password, teacherCode, st
   }
 }
 
-Future<String> loginCredentialConnection(name, email, password, teacherCode, studentCode) async {
+Future<String> loginCredentialConnection(name, password, userType) async {
   try {
-    final url = Uri.parse("http://localhost:3000/credential/schoolsignup");
+    final url = Uri.parse("$baseUrl/credential/schoolsignup");
 
     final res = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         "name": name,
-        "email": email,
         "password": password,
-        "teacherCode": teacherCode,
-        "studentCode": studentCode,
+        "userType": userType,
       }),
     );
 
@@ -59,9 +57,9 @@ Future<String> loginCredentialConnection(name, email, password, teacherCode, stu
   }
 }
 
-Future<String> schoolSignupCredentialConnection(name, email, password, teacherCode, studentCode) async {
+Future<String> schoolSignupCredentialConnection(name, email, password, schoolCode, teacherCode, studentCode) async {
   try {
-    final url = Uri.parse("http://localhost:3000/credential/schoolsignup");
+    final url = Uri.parse("$baseUrl/credential/schoolsignup");
 
     final res = await http.post(
       url,
@@ -70,6 +68,7 @@ Future<String> schoolSignupCredentialConnection(name, email, password, teacherCo
         "name": name,
         "email": email,
         "password": password,
+        "schoolCode":schoolCode,
         "teacherCode": teacherCode,
         "studentCode": studentCode,
       }),
@@ -89,7 +88,7 @@ Future<String> schoolSignupCredentialConnection(name, email, password, teacherCo
 
 Future<String> schoolLoginCredentialConnection(name, password) async {
   try {
-    final url = Uri.parse("http://localhost:3000/credential/schoollogin");
+    final url = Uri.parse("$baseUrl/credential/schoollogin");
 
     final res = await http.post(
       url,
