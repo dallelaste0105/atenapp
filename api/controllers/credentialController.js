@@ -52,6 +52,20 @@ async function credentialControllerSignup(req, res) {
 
 async function credentialControllerLogin(req, res) {
     const { name, password, userType } = req.body;
+
+    async function existSectionData(params) {
+        //verificar se existe um cookie, pra n precisar fazer o login
+    }
+
+    async function sectionData(name) {
+        const createdJwt = jwt.sign({"name":name}, process.env.JWT_SECRET, {expiresIn:"24h"});
+        res.cookie('token', createdJwt, {
+            httpOnly:true,
+            secure:false,
+            sameSite:'Lax',
+            maxAge:86400000
+        });
+    }
     
     try {
         if (!name || !password || !userType) {
@@ -65,6 +79,7 @@ async function credentialControllerLogin(req, res) {
             }
             const passwordMatch = await bcrypt.compare(password, user.password);
             if (passwordMatch) {
+                sectionData(name);
                 return res.status(200).json({ message: "Usuário fez login com sucesso" });
             }
             return res.status(500).json({ message: 'Credenciais inválidas' });
