@@ -1,23 +1,24 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:muto_system/connections/credentialConnection.dart';
 import 'package:muto_system/views/credentialViews/loginView.dart';
 import 'package:muto_system/configs/colors.dart' as ThemeColors;
-import 'package:muto_system/views/credentialViews/schoolSignupView.dart';
+import 'package:muto_system/views/credentialViews/schoolLoginView.dart';
+import 'package:muto_system/views/credentialViews/signupView.dart';
 
-class CredentialView extends StatefulWidget {
-  const CredentialView({super.key});
+class schoolCredentialView extends StatefulWidget {
+  const schoolCredentialView({super.key});
 
   @override
-  State<CredentialView> createState() => _CredentialViewState();
+  State<schoolCredentialView> createState() => _schoolCredentialViewState();
 }
 
-class _CredentialViewState extends State<CredentialView> {
+class _schoolCredentialViewState extends State<schoolCredentialView> {
   final TextEditingController name = TextEditingController();
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
-  final TextEditingController schoolname = TextEditingController();
-  final TextEditingController cod = TextEditingController();
+  final TextEditingController teacherCode = TextEditingController();
+  final TextEditingController studentCode = TextEditingController();
 
   void showSnack(String message, bool success) {
     final snackBar = SnackBar(
@@ -83,9 +84,9 @@ class _CredentialViewState extends State<CredentialView> {
                   const SizedBox(height: 12),
 
                   TextField(
-                    controller: schoolname,
+                    controller: teacherCode,
                     decoration: InputDecoration(
-                      labelText: "NOME DA ESCOLA",
+                      labelText: "CÓDIGO DOS PROFESSORES",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
@@ -93,10 +94,10 @@ class _CredentialViewState extends State<CredentialView> {
                   ),
                   SizedBox(height: 12),
                   TextField(
-                    controller: cod,
+                    controller: studentCode,
                     obscureText: true,
                     decoration: InputDecoration(
-                      labelText: "SEU CÓDIGO",
+                      labelText: "CÓDIGO DOS ALUNOS",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
@@ -129,16 +130,19 @@ class _CredentialViewState extends State<CredentialView> {
                   ElevatedButton(
                     onPressed: () async {
                       try {
-                        final SignUpAnswer = await signupCredentialConnection(
+                        final SignUpAnswer = await schoolSignupCredentialConnection(
                           name.text,
                           email.text,
                           password.text,
-                          schoolname.text,
-                          cod.text,
+                          teacherCode.text,
+                          studentCode.text,
                         );
 
                         switch (SignUpAnswer) {
-                          case "Campos obrigatórios faltando!":
+                          case "200":
+                            showSnack(SignUpAnswer, true);
+                            break;
+                          case "500":
                             showSnack(SignUpAnswer, false);
                             break;
                           default:
@@ -171,7 +175,7 @@ class _CredentialViewState extends State<CredentialView> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => CredentialViewLogin(),
+                                  builder: (context) => SchoolCredentialViewLogin(),
                                 ),
                               );
                             },
@@ -183,10 +187,10 @@ class _CredentialViewState extends State<CredentialView> {
                     Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => schoolCredentialView(),
+                                  builder: (context) => CredentialView(),
                                 ),
                               );
-                  }, child: Text("Para instituições"))
+                  }, child: Text("Para usuários"))
                 ],
               ),
             ),
@@ -196,3 +200,4 @@ class _CredentialViewState extends State<CredentialView> {
     );
   }
 }
+*/

@@ -1,24 +1,23 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:muto_system/connections/credentialConnection.dart';
-import 'package:muto_system/views/credentialViews/loginView.dart';
+import 'package:muto_system/views/userViews/credentialViews/loginView.dart';
 import 'package:muto_system/configs/colors.dart' as ThemeColors;
-import 'package:muto_system/views/credentialViews/schoolLoginView.dart';
-import 'package:muto_system/views/credentialViews/signupView.dart';
+import 'package:muto_system/views/credentialViews/schoolSignupView.dart';
 
-class schoolCredentialView extends StatefulWidget {
-  const schoolCredentialView({super.key});
+class CredentialView extends StatefulWidget {
+  const CredentialView({super.key});
 
   @override
-  State<schoolCredentialView> createState() => _schoolCredentialViewState();
+  State<CredentialView> createState() => _CredentialViewState();
 }
 
-class _schoolCredentialViewState extends State<schoolCredentialView> {
+class _CredentialViewState extends State<CredentialView> {
   final TextEditingController name = TextEditingController();
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
-  final TextEditingController teacherCode = TextEditingController();
-  final TextEditingController studentCode = TextEditingController();
+  final TextEditingController schoolname = TextEditingController();
+  final TextEditingController cod = TextEditingController();
 
   void showSnack(String message, bool success) {
     final snackBar = SnackBar(
@@ -84,9 +83,9 @@ class _schoolCredentialViewState extends State<schoolCredentialView> {
                   const SizedBox(height: 12),
 
                   TextField(
-                    controller: teacherCode,
+                    controller: schoolname,
                     decoration: InputDecoration(
-                      labelText: "CÓDIGO DOS PROFESSORES",
+                      labelText: "NOME DA ESCOLA",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
@@ -94,10 +93,10 @@ class _schoolCredentialViewState extends State<schoolCredentialView> {
                   ),
                   SizedBox(height: 12),
                   TextField(
-                    controller: studentCode,
+                    controller: cod,
                     obscureText: true,
                     decoration: InputDecoration(
-                      labelText: "CÓDIGO DOS ALUNOS",
+                      labelText: "SEU CÓDIGO",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
@@ -130,25 +129,23 @@ class _schoolCredentialViewState extends State<schoolCredentialView> {
                   ElevatedButton(
                     onPressed: () async {
                       try {
-                        final SignUpAnswer = await schoolSignupCredentialConnection(
+                        final SignUpAnswer = await signupCredentialConnection(
                           name.text,
                           email.text,
                           password.text,
-                          teacherCode.text,
-                          studentCode.text,
+                          schoolname.text,
+                          cod.text,
+                          '',
                         );
 
                         switch (SignUpAnswer) {
-                          case "200":
-                            showSnack(SignUpAnswer, true);
-                            break;
-                          case "500":
-                            showSnack(SignUpAnswer, false);
+                          // ignore: constant_pattern_never_matches_value_type
+                          case "Campos obrigatórios faltando!":
+                            showSnack(SignUpAnswer as String, false);
                             break;
                           default:
-                          showSnack('Algo deu errado', false);
+                            showSnack('Algo deu errado', false);
                         }
-                        
                       } catch (e) {
                         showSnack('Erro inesperado: $e', false);
                       }
@@ -175,7 +172,7 @@ class _schoolCredentialViewState extends State<schoolCredentialView> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => SchoolCredentialViewLogin(),
+                                  builder: (context) => CredentialViewLogin(),
                                 ),
                               );
                             },
@@ -187,10 +184,10 @@ class _schoolCredentialViewState extends State<schoolCredentialView> {
                     Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => CredentialView(),
+                                  builder: (context) => schoolCredentialView(),
                                 ),
                               );
-                  }, child: Text("Para usuários"))
+                  }, child: Text("Para instituições"))
                 ],
               ),
             ),
@@ -200,3 +197,4 @@ class _schoolCredentialViewState extends State<schoolCredentialView> {
     );
   }
 }
+*/

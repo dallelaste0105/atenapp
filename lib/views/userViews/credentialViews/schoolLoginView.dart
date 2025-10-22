@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/* import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:muto_system/connections/credentialConnection.dart'; // ADICIONADO
 import 'package:muto_system/views/credentialViews/schoolSignupView.dart';
@@ -207,4 +207,4 @@ class _SchoolCredentialViewLoginState extends State<SchoolCredentialViewLogin> {
       ),
     );
   }
-}
+}*/

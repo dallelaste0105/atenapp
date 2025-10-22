@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-Future<String> signupCredentialConnection(name, email, password, schoolName, yourCode) async {
+const String baseUrl = "http://localhost:3000";
+
+Future<String> signupCredentialConnection(name, email, password, teacherCode, studentCode) async {
   try {
-    final url = Uri.parse("http://localhost:3000/credential/signup");
+    final url = Uri.parse("http://localhost:3000/credential/schoolsignup");
 
     final res = await http.post(
       url,
@@ -12,8 +14,8 @@ Future<String> signupCredentialConnection(name, email, password, schoolName, you
         "name": name,
         "email": email,
         "password": password,
-        "schoolName": schoolName,
-        "yourCode": yourCode,
+        "teacherCode": teacherCode,
+        "studentCode": studentCode,
       }),
     );
 
@@ -29,18 +31,19 @@ Future<String> signupCredentialConnection(name, email, password, schoolName, you
   }
 }
 
-
-Future<String> loginCredentialConnection(name, password, String userType) async {
+Future<String> loginCredentialConnection(name, email, password, teacherCode, studentCode) async {
   try {
-    final url = Uri.parse("http://localhost:3000/credential/login");
+    final url = Uri.parse("http://localhost:3000/credential/schoolsignup");
 
     final res = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         "name": name,
+        "email": email,
         "password": password,
-        "userType": userType
+        "teacherCode": teacherCode,
+        "studentCode": studentCode,
       }),
     );
 
@@ -55,8 +58,6 @@ Future<String> loginCredentialConnection(name, password, String userType) async 
     return "Erro inesperado $error";
   }
 }
-
-
 
 Future<String> schoolSignupCredentialConnection(name, email, password, teacherCode, studentCode) async {
   try {
@@ -85,7 +86,6 @@ Future<String> schoolSignupCredentialConnection(name, email, password, teacherCo
     return "Erro inesperado $error";
   }
 }
-
 
 Future<String> schoolLoginCredentialConnection(name, password) async {
   try {

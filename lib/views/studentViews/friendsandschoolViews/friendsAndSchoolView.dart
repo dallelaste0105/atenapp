@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:muto_system/configs/colors.dart' as ThemeColors;
 
-class FriendsAndSchoolView extends StatefulWidget {
-  const FriendsAndSchoolView({super.key});
+class FriendsAndSchoolPage extends StatefulWidget {
+  const FriendsAndSchoolPage({super.key});
 
   @override
-  State<FriendsAndSchoolView> createState() => _FriendsAndSchoolViewState();
+  State<FriendsAndSchoolPage> createState() => _FriendsAndSchoolPageState();
 }
 
-class _FriendsAndSchoolViewState extends State<FriendsAndSchoolView> {
+class _FriendsAndSchoolPageState extends State<FriendsAndSchoolPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

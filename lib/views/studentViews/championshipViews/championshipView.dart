@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:muto_system/configs/colors.dart' as ThemeColors;
 import 'package:muto_system/widgets/CampCard.dart';
 
-class ChampionshipView extends StatefulWidget {
+class ChampionshipPage extends StatefulWidget {
   @override
-  State<ChampionshipView> createState() => _ChampionshipViewState();
+  State<ChampionshipPage> createState() => _ChampionshipPageState();
 }
 
-class _ChampionshipViewState extends State<ChampionshipView> {
+class _ChampionshipPageState extends State<ChampionshipPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
