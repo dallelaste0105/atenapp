@@ -168,9 +168,9 @@ async function schoolLoginCredentialController(req, res) {
 
 async function teste(req, res) {
     const {name, userType} = req.userData;
-    const email = await credentialModel.teste(name, userType);
-    if (email) {
-        res.status(200).json({message:email});
+    const user = await credentialModel.teste(name, userType);
+    if (user) {
+        res.status(200).json({message:user.email});
     }
 }
 

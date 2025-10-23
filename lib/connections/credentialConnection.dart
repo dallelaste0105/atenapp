@@ -11,7 +11,7 @@ Future<void> saveTokenCredentialConnection(String token) async {
 
 Future<String?> getToken() async {
   final prefs = await SharedPreferences.getInstance();
-  return prefs.getString("token");
+  return prefs.getString("token"); 
 }
 
 Future<String> signupCredentialConnection(name, email, password, schoolName, yourCode) async {
@@ -132,6 +132,37 @@ Future<String> schoolLoginCredentialConnection(name, password) async {
       return responseBody['message'] ?? 'Login da escola realizado com sucesso.';
     } else {
       return responseBody['message'] ?? 'Erro no login da escola.';
+    }
+  } catch (error) {
+    return "Erro inesperado: $error";
+  }
+}
+
+Future<String> teste() async {
+  try {
+    final jwtToken = await getToken();
+    
+    if (jwtToken == null || jwtToken.isEmpty) {
+        return "Erro: Usuário não autenticado. Faça login primeiro.";
+    }
+    
+    final url = Uri.parse("$baseUrl/credential/teste"); 
+
+    final res = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $jwtToken',
+      },
+      body: jsonEncode({}),
+    );
+
+    final responseBody = jsonDecode(res.body);
+
+    if (res.statusCode == 200) {
+      return responseBody['message'] ?? 'Requisição realizada com sucesso.';
+    } else {
+      return responseBody['message'] ?? 'Erro na requisição.';
     }
   } catch (error) {
     return "Erro inesperado: $error";
