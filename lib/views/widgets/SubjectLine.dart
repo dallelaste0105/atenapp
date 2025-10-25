@@ -5,6 +5,7 @@ class SubjectLine extends StatelessWidget {
   final double circleSize;
   final double spacing;
   final double lineWidth;
+  final Function(int index) onItemTap;
 
   const SubjectLine({
     super.key,
@@ -12,6 +13,7 @@ class SubjectLine extends StatelessWidget {
     this.circleSize = 80,
     this.spacing = 50,
     this.lineWidth = 4,
+    required this.onItemTap,
   });
 
   @override
@@ -25,7 +27,7 @@ class SubjectLine extends StatelessWidget {
           lineWidth: lineWidth,
         ),
         child: SizedBox(
-          width: circleSize,
+          width: circleSize * 1.2,
           height: colors.length * (circleSize + spacing),
           child: Stack(
             alignment: Alignment.center,
@@ -33,39 +35,43 @@ class SubjectLine extends StatelessWidget {
               for (int i = 0; i < colors.length; i++)
                 Positioned(
                   top: i * (circleSize + spacing),
-                  child: _FrostedCircle(color: colors[i], size: circleSize),
+                  child: GestureDetector(
+                    onTap: () => onItemTap(i),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      width: circleSize,
+                      height: circleSize,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [colors[i], colors[i].withOpacity(0.6)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: colors[i].withOpacity(0.4),
+                            blurRadius: 12,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        '${i + 1}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
             ],
           ),
         ),
       ),
-    );
-  }
-}
-
-class _FrostedCircle extends StatelessWidget {
-  final Color color;
-  final double size;
-
-  const _FrostedCircle({required this.color, required this.size});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.7),
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: color.withOpacity(0.3),
-            blurRadius: 15,
-            spreadRadius: 3,
-          ),
-        ],
-      ),
-      child: const Icon(Icons.star_border, color: Colors.white, size: 34),
     );
   }
 }
@@ -86,7 +92,7 @@ class _LinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.white.withOpacity(0.2)
+      ..color = Colors.white.withOpacity(0.15)
       ..strokeWidth = lineWidth
       ..strokeCap = StrokeCap.round;
 
@@ -94,7 +100,6 @@ class _LinePainter extends CustomPainter {
       final startY = (circleSize / 2) + i * (circleSize + spacing);
       final endY = (circleSize / 2) + (i + 1) * (circleSize + spacing);
       final x = size.width / 2;
-
       canvas.drawLine(Offset(x, startY), Offset(x, endY), paint);
     }
   }

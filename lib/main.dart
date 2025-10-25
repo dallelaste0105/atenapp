@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muto_system/views/generalViews/signupView.dart';
+import 'package:muto_system/views/studentViews/subjectsViews/subjectView.dart';
 
 void main() => runApp(myApp());
 
@@ -9,6 +10,6 @@ class myApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: CredentialView());
+    return MaterialApp(home: SubjectProgressPage());
   }
 }
