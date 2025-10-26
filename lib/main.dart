@@ -1,6 +1,7 @@
 // main.dart
 import 'package:flutter/material.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:muto_system/views/test/notificationViewTest/notificationViewTest.dart';
 import 'package:muto_system/views/userViews/homeView/homeView.dart';
 
 void main() async {
@@ -62,7 +63,8 @@ class MyApp extends StatelessWidget {
         title: 'Muto System',
         theme: theme,
         darkTheme: darkTheme,
-        home: HomeView(token: ''),
+        // home: HomeView(token: ''),
+        home: NotificationTest(),
       ),
     );
   }
