@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String baseUrl = "http://localhost:3000";
+const String baseUrl = "http://10.0.2.2";
 
 Future<void> saveTokenCredentialConnection(String token) async {
   final prefs = await SharedPreferences.getInstance();
@@ -39,10 +39,6 @@ Future<String> signupCredentialConnection(
     final responseBody = jsonDecode(res.body);
 
     if (res.statusCode == 200) {
-      final token = responseBody['token'];
-      if (token is String) {
-        await saveTokenCredentialConnection(token);
-      }
       return responseBody['message'] ?? 'Usuário cadastrado com sucesso.';
     } else {
       return responseBody['message'] ?? 'Erro no cadastro.';
@@ -109,10 +105,6 @@ Future<String> schoolSignupCredentialConnection(
     final responseBody = jsonDecode(res.body);
 
     if (res.statusCode == 200) {
-      final token = responseBody['token'];
-      if (token is String) {
-        await saveTokenCredentialConnection(token);
-      }
       return responseBody['message'] ?? 'Escola cadastrada com sucesso.';
     } else {
       return responseBody['message'] ?? 'Erro no cadastro da escola.';
