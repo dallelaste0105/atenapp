@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:muto_system/configs/colors.dart' as ThemeColors;
 import 'package:muto_system/views/generalViews/signupView.dart';
-import 'package:muto_system/views/userViews/homeView/homeView.dart';
 import 'package:muto_system/connections/credentialConnection.dart';
+import 'package:muto_system/views/test/testeJwt.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:muto_system/views/testView.dart';
 
 class CredentialViewLogin extends StatefulWidget {
   const CredentialViewLogin({super.key});
@@ -70,7 +71,7 @@ class _CredentialViewLoginState extends State<CredentialViewLogin> {
 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => HomeView(token: tokenToSend)),
+          MaterialPageRoute(builder: (_) => UserProfileScreen()),
         );
       } else {
         showSnack(response.isNotEmpty ? response : 'Erro no login.', false);
