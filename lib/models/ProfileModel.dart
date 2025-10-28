@@ -30,7 +30,6 @@ class UserProfileModel {
     required this.featuredAchievements,
   });
 
-  // Método de Fábrica principal para conversão de Map (JSON/DB)
   factory UserProfileModel.fromJson(Map<String, dynamic> json) {
     return UserProfileModel(
       uid: json['uid'] as String,
@@ -43,21 +42,17 @@ class UserProfileModel {
       studyStreakDays: json['study_streak_days'] as int,
       leagueRanking: json['league_ranking'] as String,
       currentSubjectProgress: json['current_subject_progress'] as String,
-      // Garante a conversão segura de List<dynamic> para List<String>
+
       featuredAchievements: List<String>.from(
         json['featured_achievements'] as List? ?? [],
       ),
     );
   }
 
-  // Novo método estático fromMap para compatibilidade com o código estático
-  // Ele simplesmente chama o fromJson.
   static UserProfileModel fromMap(Map<String, dynamic> map) {
-    // Usamos o fromJson já definido, pois JSON é essencialmente um Map<String, dynamic>.
     return UserProfileModel.fromJson(map);
   }
 
-  // Método para salvar/atualizar no DB
   Map<String, dynamic> toJson() {
     return {
       'uid': uid,

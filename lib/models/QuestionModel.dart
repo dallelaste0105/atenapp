@@ -15,7 +15,6 @@ class QuestionModel {
     this.imageUrl,
   });
 
-  // Pronto para integração futura com banco de dados
   factory QuestionModel.fromJson(Map<String, dynamic> json) {
     return QuestionModel(
       id: json['id'],
