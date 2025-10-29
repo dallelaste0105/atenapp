@@ -1,9 +1,23 @@
 import 'package:flutter/material.dart';
-import '../../../connections/credentialConnection.dart';
 import '../../../classes/questionClass.dart';
 
 class QuestionScreen extends StatelessWidget {
-  const QuestionScreen({super.key});
+  final String subject;
+  final String topic;
+  final String subTopic;
+  final int difficulty;
+  final String searchType;
+  final int howMany;
+
+  const QuestionScreen({
+    super.key,
+    required this.subject,
+    required this.topic,
+    required this.subTopic,
+    required this.difficulty,
+    required this.searchType,
+    required this.howMany,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -11,9 +25,14 @@ class QuestionScreen extends StatelessWidget {
       appBar: AppBar(title: const Text("Responda")),
       body: Center(
         child: FutureBuilder<dynamic>(
-          
-          future: QuestionClass().takeSaveQuestionDataFunction("mat", "matbas", "matbasadi", 2, "all", 3),//isso deve ser passado pelo botão por context pra variáveis que devem estar no começo do arquivo 
-          
+          future: QuestionClass().takeSaveQuestionDataFunction(
+            subject,
+            topic,
+            subTopic,
+            difficulty,
+            searchType,
+            howMany,
+          ),
           builder: (context, snapshot) {
             
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -21,27 +40,29 @@ class QuestionScreen extends StatelessWidget {
             }
 
             if (snapshot.hasError) {
-              return Text(
+              return const Text(
                 'Erro ao carregar questão',
-                style: const TextStyle(color: Colors.red),
+                style: TextStyle(color: Colors.red),
                 textAlign: TextAlign.center,
               );
             }
 
             if (snapshot.hasData) {
-              final userEmail = snapshot.data!;
-              
+              final data = snapshot.data!;
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "E-mail do Usuário:",
+                    "Questão carregada:",
                     style: TextStyle(fontSize: 20, color: Colors.grey),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    userEmail, // O e-mail retornado pela API
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    data.toString(),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               );
@@ -54,5 +75,3 @@ class QuestionScreen extends StatelessWidget {
     );
   }
 }
-
-//aqui que vai toda a lógica da página de questão
