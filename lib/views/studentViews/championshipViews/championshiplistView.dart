@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muto_system/configs/colors.dart' as ThemeColors;
+import 'package:muto_system/views/studentViews/championshipViews/championshipdetailsView.dart';
 import 'package:muto_system/views/widgets/CampCard.dart';
 
 class ChampionshipPage extends StatefulWidget {
@@ -26,6 +27,15 @@ class _ChampionshipPageState extends State<ChampionshipPage> {
           Column(
             children: [
               EventCard(
+                onItemTap: (index) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ChampionshipDetailsView(index: index),
+                    ),
+                  );
+                },
                 title: "Campeonato Catarinense de Exatas",
                 locationType: "Estadual",
                 subjects: ["Mat.", "Fís."],
@@ -34,6 +44,15 @@ class _ChampionshipPageState extends State<ChampionshipPage> {
                 backgroundImage: "assets/img/ColorExample.png",
               ),
               EventCard(
+                onItemTap: (index) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ChampionshipDetailsView(index: index),
+                    ),
+                  );
+                },
                 title: "Campeonato Catarinense de Exatas",
                 locationType: "Estadual",
                 subjects: ["Mat.", "Fís."],
@@ -42,6 +61,15 @@ class _ChampionshipPageState extends State<ChampionshipPage> {
                 backgroundImage: "assets/img/ColorExample.png",
               ),
               EventCard(
+                onItemTap: (index) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ChampionshipDetailsView(index: index),
+                    ),
+                  );
+                },
                 title: "Campeonato Catarinense de Exatas",
                 locationType: "Estadual",
                 subjects: ["Mat.", "Fís."],
@@ -50,6 +78,15 @@ class _ChampionshipPageState extends State<ChampionshipPage> {
                 backgroundImage: "assets/img/ColorExample.png",
               ),
               EventCard(
+                onItemTap: (index) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ChampionshipDetailsView(index: index),
+                    ),
+                  );
+                },
                 title: "Campeonato Catarinense de Exatas",
                 locationType: "Estadual",
                 subjects: ["Mat.", "Fís."],
@@ -58,6 +95,15 @@ class _ChampionshipPageState extends State<ChampionshipPage> {
                 backgroundImage: "assets/img/ColorExample.png",
               ),
               EventCard(
+                onItemTap: (index) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ChampionshipDetailsView(index: index),
+                    ),
+                  );
+                },
                 title: "Campeonato Catarinense de Exatas",
                 locationType: "Estadual",
                 subjects: ["Mat.", "Fís."],
@@ -66,6 +112,15 @@ class _ChampionshipPageState extends State<ChampionshipPage> {
                 backgroundImage: "assets/img/ColorExample.png",
               ),
               EventCard(
+                onItemTap: (index) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ChampionshipDetailsView(index: index),
+                    ),
+                  );
+                },
                 title: "Campeonato Catarinense de Exatas",
                 locationType: "Estadual",
                 subjects: ["Mat.", "Fís."],
@@ -74,6 +129,15 @@ class _ChampionshipPageState extends State<ChampionshipPage> {
                 backgroundImage: "assets/img/ColorExample.png",
               ),
               EventCard(
+                onItemTap: (index) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ChampionshipDetailsView(index: index),
+                    ),
+                  );
+                },
                 title: "Campeonato Catarinense de Exatas",
                 locationType: "Estadual",
                 subjects: ["Mat.", "Fís."],
@@ -82,6 +146,15 @@ class _ChampionshipPageState extends State<ChampionshipPage> {
                 backgroundImage: "assets/img/ColorExample.png",
               ),
               EventCard(
+                onItemTap: (index) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ChampionshipDetailsView(index: index),
+                    ),
+                  );
+                },
                 title: "Campeonato Catarinense de Exatas",
                 locationType: "Estadual",
                 subjects: ["Mat.", "Fís."],
@@ -90,6 +163,15 @@ class _ChampionshipPageState extends State<ChampionshipPage> {
                 backgroundImage: "assets/img/ColorExample.png",
               ),
               EventCard(
+                onItemTap: (index) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ChampionshipDetailsView(index: index),
+                    ),
+                  );
+                },
                 title: "Campeonato Catarinense de Exatas",
                 locationType: "Estadual",
                 subjects: ["Mat.", "Fís."],

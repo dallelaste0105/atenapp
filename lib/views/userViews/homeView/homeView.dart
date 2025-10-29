@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:muto_system/views/studentViews/championshipViews/championshipView.dart';
+import 'package:muto_system/views/studentViews/championshipViews/championshiplistView.dart';
 import 'package:muto_system/views/studentViews/friendsandschoolViews/friendsAndSchoolView.dart';
 import 'package:muto_system/views/studentViews/profileViews/profileView.dart';
 import 'package:muto_system/views/studentViews/subjectsViews/subjectView.dart';

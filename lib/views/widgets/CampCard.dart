@@ -7,6 +7,7 @@ class EventCard extends StatelessWidget {
   final int daysLeft;
   final String timeLeft;
   final String backgroundImage;
+  final Function(int index) onItemTap;
 
   const EventCard({
     super.key,
@@ -16,6 +17,7 @@ class EventCard extends StatelessWidget {
     required this.daysLeft,
     required this.timeLeft,
     required this.backgroundImage,
+    required this.onItemTap,
   });
 
   @override
@@ -120,6 +122,17 @@ class EventCard extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => onItemTap(0),
+                  child: Text(
+                    "Entrar",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                 ),
               ],
