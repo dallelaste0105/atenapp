@@ -5,7 +5,6 @@ import 'package:muto_system/views/generalViews/signupView.dart';
 import 'package:muto_system/connections/credentialConnection.dart';
 import 'package:muto_system/views/test/testeJwt.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:muto_system/views/testView.dart';
 
 class CredentialViewLogin extends StatefulWidget {
   const CredentialViewLogin({super.key});

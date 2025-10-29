@@ -1,5 +1,0 @@
-/*
-criar campeonatos
-
-criar turmas
-*/
