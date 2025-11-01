@@ -2,8 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:muto_system/views/generalViews/signupView.dart';
-import 'package:muto_system/views/userViews/homeView/homeView.dart';
+import 'package:muto_system/views/userViews/leagueView/leaguePositionsView.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,9 +62,7 @@ class MyApp extends StatelessWidget {
         theme: theme,
         darkTheme: darkTheme,
         debugShowCheckedModeBanner: false,
-        home: savedToken != null && savedToken!.isNotEmpty
-            ? HomeView(token: savedToken!)
-            : const CredentialView(),
+        home: LeagueScreen()
       ),
     );
   }
