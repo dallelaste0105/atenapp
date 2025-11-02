@@ -2,6 +2,7 @@ import 'package:muto_system/connections/questionConnection.dart';
 
 class QuestionClass {
   List<dynamic> questionsList = [];
+  int accuracy = 0;
 
   Future<void> takeSaveQuestionDataFunction(
       subject, topic, subTopic, difficulty, searchType, howMany) async {
@@ -34,4 +35,12 @@ class QuestionClass {
       questionsList.removeAt(0);
     }
   }
+
+  void verifyAccuracy(String answer){
+    if (answer == questionsList[0]["correctOption"]) {
+      accuracy += 1;
+    }
+  }
+
+  void addPointsContext(context){}
 }
