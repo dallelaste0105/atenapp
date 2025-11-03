@@ -12,11 +12,15 @@ async function leagueUpgrade(req, res) {
         if (nextLeague >= leagues.length) {
             return res.status(500).json({message:"Você está na maior liga possível!"})
         }
-        const newLeague = await questionModel.existLeagues(nextLeague);
-        if (!newLeague) {
-            await questionModel.createNewLeague(nextLeague);
-            await insertUserNewLeague(userId, nextLeague);
-        }
+        const leagueId = await leagueModel.existLeagues(nextLeague);
+            if (!leagueId) {
+                await leagueModel.createNewLeague(nextLeague);
+                const newLeagueId = await leagueModel.existLeagues(nextLeague);
+                await leagueModel.addUserLeague(userId, newLeagueId);
+            }
+            else{
+                await leagueModel.addUserLeague(userId, leagueId);
+            }
     } catch (error) {
         
     }

@@ -1,4 +1,5 @@
 const credentialModel = require("../models/credentialModel");
+const leagueModel = require("../models/leagueModel");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -31,6 +32,19 @@ async function credentialControllerSignup(req, res) {
 
         if (!school) {
             const ok = await credentialModel.credentialModelUserSignup(name, email, bcrypt_password);
+            const userId = await credentialModel.selectId(name, "user");
+            const leagueId = await leagueModel.existLeagues("Iron")
+            if (!leagueId) {
+                await leagueModel.createNewLeague("Iron");
+                const newLeagueId = await leagueModel.existLeagues("Iron");
+                await leagueModel.addUserLeague(userId, newLeagueId);
+            }
+            else{
+                await leagueModel.addUserLeague(userId, leagueId);
+            }
+                
+            
+            
             if (ok) return res.status(200).json({ message: 'Usuário cadastrado com sucesso!' });
             return res.status(500).json({ message: 'Problemas ao cadastrar usuário' });
         }
@@ -46,6 +60,16 @@ async function credentialControllerSignup(req, res) {
             await credentialModel.credentialModelStudentSignup(name, email, bcrypt_password);
             const student = await credentialModel.credentialModelSearchStudent(name);
             await credentialModel.credentialModelDoSchoolStudentRelation(school.id, student.id);
+            const studentId = await credentialModel.selectId(name, "student");
+            const leagueId = await leagueModel.existLeagues("Iron")
+            if (!leagueId) {
+                await leagueModel.createNewLeague("Iron");
+                const newLeagueId = await leagueModel.existLeagues("Iron");
+                await leagueModel.addUserLeague(studentId, newLeagueId);
+            }
+            else{
+                await leagueModel.addUserLeague(studentId, leagueId);
+            }
             return res.status(200).json({ message: 'Aluno cadastrado com sucesso!' });
         }
 

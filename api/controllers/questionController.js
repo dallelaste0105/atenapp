@@ -29,8 +29,8 @@ async function addPointsContextConnection(req, res) {
     const {context, accuracy} = req.body;
     const {userId, userType} = req.userData;
     try {
-        let points;
         if (context == "league") {
+            let points;
             for (let i = 0; i < accuracy.length; i++) {
                 points += accuracy[i];
             }

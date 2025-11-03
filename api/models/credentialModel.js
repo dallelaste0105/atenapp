@@ -129,6 +129,30 @@ async function credentialModelDoSchoolStudentRelation(school_id, student_id) {
     });
 }
 
+async function selectId(name, userType) {
+  return new Promise((resolve, reject) => {
+    const query = `SELECT id FROM \`${userType}\` WHERE name = ?`;
+    db.query(query, [name], (error, results) => {
+      
+      // Se houver um erro de DB, rejeite
+      if (error) {
+        console.error("Erro na query do Model:", error);
+        return reject(error); // Rejeita com o erro real
+      }
+
+      // Se encontrar o usuário, resolva com o usuário
+      if (results && results.length > 0) {
+        return resolve(results);
+      } 
+      
+      // SE NÃO ENCONTRAR, resolva com 'null'
+      else {
+        return resolve(null); // <-- ESTA É A CORREÇÃO
+      }
+    });
+  });
+}
+
 //-----Login part-----
 
 async function credentialModelMainTableLoginVerification(main_table, name) {
@@ -179,7 +203,7 @@ async function teste(name, userType) {
 }
 
 
-module.exports = {credentialModelWhichSchool, credentialModelTeacherSignup, credentialModelStudentSignup, credentialModelUserSignup, credentialModelSchoolSignup, credentialModelSearchTeacher, credentialModelSearchStudent, credentialModelDoSchoolTeacherRelation, credentialModelDoSchoolStudentRelation, credentialModelVerifySchoolCode,
+module.exports = {credentialModelWhichSchool, credentialModelTeacherSignup, credentialModelStudentSignup, credentialModelUserSignup, credentialModelSchoolSignup, credentialModelSearchTeacher, credentialModelSearchStudent, credentialModelDoSchoolTeacherRelation, credentialModelDoSchoolStudentRelation, credentialModelVerifySchoolCode, selectId,
   credentialModelMainTableLoginVerification, credentialModelRelationTableLoginVerification,
   teste
 };
