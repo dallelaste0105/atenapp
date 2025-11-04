@@ -9,16 +9,14 @@ Future<String?> getToken() async {
   return prefs.getString("token");
 }
 
-Future<String> getUserBasicDataConnection(context) async {
+Future<Map> getUserBasicDataConnection() async {
   try {
-    final url = Uri.parse("$baseUrl/credential/signup");
+    final url = Uri.parse("$baseUrl/basicdata/userbasicdata");
 
     final res = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        "context": context
-      }),
+      body: jsonEncode({}),
     );
 
     final responseBody = jsonDecode(res.body);
@@ -29,6 +27,6 @@ Future<String> getUserBasicDataConnection(context) async {
       return responseBody['message'] ?? 'Erro na criação';
     }
   } catch (error) {
-    return "Erro inesperado: $error";
+    return {"Erro inesperado": error};
   }
 }

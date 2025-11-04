@@ -1,16 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:muto_system/classes/basicData.dart'; // Mantenha sua classe
 
-class UserProfileScreen extends StatelessWidget {
+final BasicDataClassInstance = BasicDataClass();
+
+class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
 
+  @override
+  _UserProfileScreenState createState() => _UserProfileScreenState();
+}
+
+class _UserProfileScreenState extends State<UserProfileScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    BasicDataClassInstance.getUserBasicDataClass();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Meu Perfil")),
       body: Center(
-        child: FutureBuilder<String>(
+        child: FutureBuilder<List>(
           
-          future: teste(),//funções que carregam por padrão
+          // 7. PASSE A VARIÁVEL (e não a função)
+          future: BasicDataClass().showUserBasicDataClass(), // <--- A GRANDE MUDANÇA
           
           builder: (context, snapshot) {
             
@@ -27,18 +42,18 @@ class UserProfileScreen extends StatelessWidget {
             }
 
             if (snapshot.hasData) {
-              final userEmail = snapshot.data!;
+              final userID = snapshot.data!;
               
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "E-mail do Usuário:",
+                    "ID do Usuário:",
                     style: TextStyle(fontSize: 20, color: Colors.grey),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    userEmail,
+                    userID[0],
                     style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                 ],

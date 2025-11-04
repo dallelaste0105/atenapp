@@ -1,19 +1,15 @@
-const championshipModel = require("../models/championshipModel");
+const basicDataModel = require("../models/basicDataModel");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 async function userBasicDataLoader(req, res) {
     const {context} = req.body;
+    const {id, userType} = req.userData;
+
     try {
-        if (await championshipModel.championshipExists(name)) {
-            res.status(500).json({message:"Esse campeonato já existe e está em andamento, tente outro nome"});
-        }
-        else{
-            if(await championshipModel.createChampionship(name, numberPositions, subject, topic, subTopic, code)){
-                res.status(200).json({message:"Campeonato criado com sucesso"});
-            }
-        }
+        const nameLeagueName = basicDataModel.userBasicDataLoader(id, userType);
+        return res.status(200).json({message:nameLeagueName});
     } catch (error) {
         res.status(500).json({message:"Erro ao criar campeonato"});
     }

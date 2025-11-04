@@ -1,33 +1,28 @@
 const db = require("../db");
 
-async function championshipExists(name) {
-  new Promise((resolve, reject) => {
-    const query = "SELECT * FROM championship WHERE name = ?";
-    db.query(query, [name], (error, result) => {
-      if (error) {
-        return reject;
-      }
-      else{
-        return resolve(result);
-      }
-    })
-  })
-}
+async function userBasicDataLoader(id, userType) {
+  return new Promise((resolve, reject) => {
+    
+        const query1 = `SELECT leagueId FROM userleague WHERE userId = ?`;
+        db.query(query1, [id], (error, result1) => {
+        if (error) return reject(error);
+        const leagueId = result1;
 
-async function createChampionship(name, numberPositions, subject, topic, subTopic, code) {
-  new Promise((resolve, reject) => {
-    const query = "INSERT INTO championship (name, numberPositions, subject, topic, subTopic, code) VALUES (?,?,?,?,?,?)";
-    db.query(query, [name, numberPositions, subject, topic, subTopic, code], (error, result) => {
-      if (error) {
-        return reject;
-      }
-      else{
-        return resolve(result);
-      }
-    })
-  })
-}
+        const query2 = `SELECT type FROM league WHERE id = ?`;
+        db.query(query2, [leagueId], (error, result2) => {
+        if (error) return reject(error);
+        const leagueId = result2;
 
-module.exports = { championshipExists,
-  createChampionship
-};
+        const query3 = `SELECT name FROM \`${userType}\` WHERE id = ?`;
+        db.query(query3, [id], (error, result3) => {
+        if (error) return reject(error);
+        const leagueId = result3;
+
+          resolve({ name: result3, leagueName : result2 });
+        });
+      
+      });
+    });
+  })}
+
+module.exports = {userBasicDataLoader};
