@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muto_system/classes/leagueClass.dart';
-import 'package:muto_system/views/userViews/leagueView/questionView.dart';
 import 'package:muto_system/views/widgets/competitorWidget.dart';
-
-final LeagueClassInstance = LeagueClass();
-bool _getCompetitorsExecuted = false;
 
 class LeagueScreen extends StatefulWidget {
   @override
@@ -12,82 +8,61 @@ class LeagueScreen extends StatefulWidget {
 }
 
 class _LeagueScreenState extends State<LeagueScreen> {
+  late Future<List<dynamic>> _competitorsFuture;
+
   @override
   void initState() {
     super.initState();
-    if (!_getCompetitorsExecuted) {
-      LeagueClassInstance.getCompetitorsLeague();
-      _getCompetitorsExecuted = true;
-    }
+    // busca sempre direto da API
+    _competitorsFuture = LeagueClassInstance.getCompetitorsLeague();
+  }
+
+  Future<void> _refresh() async {
+    setState(() {
+      _competitorsFuture = LeagueClassInstance.getCompetitorsLeague();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Scaffold Padrão')),
-      body: Center(
-        child: Column(
-          children: [
-            FutureBuilder(
-              future: LeagueClassInstance.showCompetitorsList(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                }
+      appBar: AppBar(title: const Text('Competidores')),
+      body: FutureBuilder<List<dynamic>>(
+        future: _competitorsFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-                if (snapshot.hasError) {
-                  return Text(
-                    'Erro ao carregar dados: ${snapshot.error}',
-                    style: const TextStyle(color: Colors.red),
-                    textAlign: TextAlign.center,
-                  );
-                }
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                'Erro ao carregar: ${snapshot.error}',
+                style: const TextStyle(color: Colors.red),
+              ),
+            );
+          }
 
-                if (snapshot.hasData) {
-                  final data = snapshot.data as List;
-                  if (data.isEmpty) {
-                    return const Text('Nenhum competidor encontrado.');
-                  }
-                  return Expanded(
-                    child: ListView.builder(
-                      itemCount: data.length,
-                      itemBuilder: (context, index) {
-                        final competitor = data[index] as Map<String, dynamic>;
-                        return Competitor(
-                          name: competitor['name'] ?? 'Sem nome',
-                          points: competitor['points'] ?? 0,
-                        );
+          final data = snapshot.data;
 
-                      },
-                    ),
-                  );
-                }
+          if (data == null || data.isEmpty) {
+            return const Center(child: Text('Nenhum competidor encontrado.'));
+          }
 
-                return const Text("Erro crítico");
-              },
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => QuestionScreen(
-                      subject: "mat",
-                      topic: "matbas",
-                      subTopic: "matbasadi",
-                      difficulty: 1,
-                      searchType: "all",
-                      howMany: 3,
-                      context: "league",
-                    ),
-                  ),
+          return RefreshIndicator(
+            onRefresh: _refresh,
+            child: ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                final competitor = data[index];
+                return Competitor(
+                  name: competitor['name'] ?? 'Sem nome',
+                  points: competitor['points'] ?? 0,
                 );
               },
-              child: const Text("Fazer questões"),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

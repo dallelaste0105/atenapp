@@ -1,15 +1,23 @@
 import 'package:muto_system/connections/leagueConnection.dart';
 
 class LeagueClass {
-  List<dynamic> questionsList = [];
+  Future<List<dynamic>> getCompetitorsLeague() async {
+    try {
+      final response = await getCompetitorsLeagueConnection();
 
-  Future<void> getCompetitorsLeague() async {
-    questionsList = await getCompetitorsLeagueConnection();
-  }
-
-  Future<List> showCompetitorsList() async {
-    return questionsList;
+      print('🔹 Resposta bruta da API: $response'); // 👉 mostra exatamente o que veio
+      if (response is List) {
+        print('✅ É uma lista com ${response.length} itens');
+        return response;
+      } else {
+        print('⚠️ A resposta não é uma lista (tipo: ${response.runtimeType})');
+        return [];
+      }
+    } catch (e) {
+      print("❌ Erro ao buscar competidores: $e");
+      return [];
+    }
   }
 }
 
-  
+final LeagueClassInstance = LeagueClass();

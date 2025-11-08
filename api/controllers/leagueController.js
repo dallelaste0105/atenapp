@@ -31,14 +31,17 @@ async function leagueUpgrade(req, res) {
 
 // controller (leagueController.js)
 async function getCompetitorsLeague(req, res) {
-  const {userId, userType} = req.userData;
-  try {
-    const userLeague = await basicDataModel.userBasicDataLoader(userId, userType); // agora é { name, leagueId, leagueType }
-    const leagueId = userLeague.leagueId;
+  const { id, userType } = req.userData;
+  console.log("🧩 userId recebido:", id);
+  console.log("🧩 userType recebido:", userType);
 
-    if (!leagueId) {
-      return res.status(200).json({ message: [] }); // sem liga → retorna lista vazia
-    }
+  try {
+    const userLeague = await basicDataModel.userBasicDataLoader(id, userType);
+    console.log("🧩 Retorno de userBasicDataLoader:", userLeague);
+
+    const leagueId = userLeague.leagueId;
+    console.log("🧩 leagueId final:", leagueId);
+
 
     const competitors = await leagueModel.getCompetitorsLeague(leagueId);
     return res.status(200).json({ message: competitors });
