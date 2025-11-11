@@ -88,7 +88,7 @@ class LoadingdadosView extends StatelessWidget {
                   background: Stack(
                     fit: StackFit.expand,
                     children: [
-                      Container(color: const Color(0xFF1E88E5)),
+                      Container(color: const Color(0xFF2C5282)),
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Padding(
@@ -98,7 +98,7 @@ class LoadingdadosView extends StatelessWidget {
                             backgroundColor: Colors.white,
                             child: Icon(
                               Icons.person,
-                              color: Colors.blue[400],
+                              color: Color(0xFF2C5282),
                               size: 60,
                             ),
                           ),
