@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:muto_system/views/userViews/leagueView/leaguePositionsView.dart';
+import 'package:muto_system/views/userViews/loadingDadosView.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({Key? key}) : super(key: key);
+  const HomeView({Key? key, String? savedToken}) : super(key: key);
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -42,7 +43,7 @@ class _HomeViewState extends State<HomeView> {
       body: PageView(
         controller: _pageController,
         onPageChanged: (index) => setState(() => _paginaAtual = index),
-        children: [_pagina(Colors.blueAccent, "Página 1"), LeagueScreen()],
+        children: [LoadingdadosView(), LeagueScreen()],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _paginaAtual,
