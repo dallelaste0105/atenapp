@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:muto_system/configs/colors.dart' as ThemeColors;
 import 'package:muto_system/views/generalViews/signupView.dart';
 import 'package:muto_system/connections/credentialConnection.dart';
+import 'package:muto_system/views/userViews/homeView/homeView.dart';
 import 'package:muto_system/views/userViews/leagueView/leaguePositionsView.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -68,7 +69,7 @@ class _CredentialViewLoginState extends State<CredentialViewLogin> {
 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => LeagueScreen()),
+          MaterialPageRoute(builder: (_) => HomeView()),
         );
       } else {
         showSnack(response.isNotEmpty ? response : 'Erro no login.', false);
