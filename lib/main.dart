@@ -64,8 +64,7 @@ class MyApp extends StatelessWidget {
         theme: theme,
         darkTheme: darkTheme,
         debugShowCheckedModeBanner: false,
-        // home: CredentialView(),
-        home: HomeView(savedToken: savedToken),
+        home: CredentialView(),
       ),
     );
   }
