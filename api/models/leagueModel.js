@@ -70,16 +70,13 @@ async function getCompetitorsLeague(leagueId) {
 async function verifyUserLeagueAndPoints(userId) {
   return new Promise((resolve, reject) => {
     const query = `SELECT leagueId, points FROM userleague WHERE userId = ?`;
-    
-    db.query(query, [userId], (error, result) => {
-      if (error) {
-        return reject(error);
-      }
-      if (result.length === 0) {
-        return reject(new Error('Usuário não encontrado em nenhuma liga.'));
-      }
 
-      // Garante que vem como número
+    db.query(query, [userId], (error, result) => {
+      if (error) return reject(error);
+      if (result.length === 0)
+        return reject(new Error("Usuário não encontrado em nenhuma liga."));
+
+      // 🔹 Converte sempre pra número
       const data = [Number(result[0].leagueId), Number(result[0].points)];
       resolve(data);
     });

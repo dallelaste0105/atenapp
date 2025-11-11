@@ -12,7 +12,7 @@ class QuestionScreen extends StatefulWidget {
     super.key,
     required this.subTopic,
     required this.difficulty,
-    required this.howMany
+    required this.howMany,
   });
 
   @override
@@ -21,6 +21,7 @@ class QuestionScreen extends StatefulWidget {
 
 class _QuestionScreenState extends State<QuestionScreen> {
   late Future<void> _loadQuestionsFuture;
+  bool finished = false; // ✅ controla se acabou as perguntas
 
   @override
   void initState() {
@@ -28,8 +29,20 @@ class _QuestionScreenState extends State<QuestionScreen> {
     _loadQuestionsFuture = QuestionClassInstance.takeSaveQuestionDataFunction(
       widget.subTopic,
       widget.difficulty,
-      widget.howMany
+      widget.howMany,
     );
+  }
+
+  void _answerQuestion(String answer) {
+    QuestionClassInstance.verifyAccuracy(answer);
+    setState(() {
+      QuestionClassInstance.excludeFirstQuestion();
+      if (QuestionClassInstance.questionsList.isEmpty) {
+        finished = true;
+        // ✅ Chama a função que envia pontos ao backend
+        QuestionClassInstance.addPointsContext("league");
+      }
+    });
   }
 
   @override
@@ -52,11 +65,15 @@ class _QuestionScreenState extends State<QuestionScreen> {
               );
             }
 
+            // ✅ Se terminou todas as perguntas:
+            if (finished) {
+              return const Text("Sua resposta foi registrada!");
+            }
+
             final question = QuestionClassInstance.showFirstQuestion();
 
             if (question == null) {
-              QuestionClassInstance.addPointsContext(context);
-              return const Text("Sua resposta foi registrada");
+              return const Text("Carregando pergunta...");
             }
 
             return Column(
@@ -64,47 +81,27 @@ class _QuestionScreenState extends State<QuestionScreen> {
               children: [
                 Text(
                   question["statement"].toString(),
-                  style: TextStyle(color: Colors.red), // <-- Cor alterada
-                ),              
+                  style: const TextStyle(color: Colors.red),
+                ),
                 Text("Opção A: ${question["a"].toString()}"),
                 Text("Opção B: ${question["b"].toString()}"),
                 Text("Opção C: ${question["c"].toString()}"),
                 Text("Opção D: ${question["d"].toString()}"),
                 const SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () {
-                    QuestionClassInstance.verifyAccuracy("A");
-                    setState(() {
-                      QuestionClassInstance.excludeFirstQuestion();
-                    });
-                  },
+                  onPressed: () => _answerQuestion("a"),
                   child: const Text("A"),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    QuestionClassInstance.verifyAccuracy("B");
-                    setState(() {
-                      QuestionClassInstance.excludeFirstQuestion();
-                    });
-                  },
+                  onPressed: () => _answerQuestion("b"),
                   child: const Text("B"),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    QuestionClassInstance.verifyAccuracy("C");
-                    setState(() {
-                      QuestionClassInstance.excludeFirstQuestion();
-                    });
-                  },
+                  onPressed: () => _answerQuestion("c"),
                   child: const Text("C"),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    QuestionClassInstance.verifyAccuracy("D");
-                    setState(() {
-                      QuestionClassInstance.excludeFirstQuestion();
-                    });
-                  },
+                  onPressed: () => _answerQuestion("d"),
                   child: const Text("D"),
                 ),
               ],

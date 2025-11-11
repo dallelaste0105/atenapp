@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String baseUrl = "http://192.168.1.2:3000";
+const String baseUrl = "http://10.0.30.164:3000";
 
 Future<String?> getToken() async {
   final prefs = await SharedPreferences.getInstance();
@@ -49,7 +49,7 @@ Future <dynamic> addPointsContextConnection(context, accuracy) async {
         'Authorization': 'Bearer $jwtToken',
       },
       body: jsonEncode({
-        "context": context, //pra questões da liga é league
+        "context": context,
         "accuracy": accuracy,
       }),
     );

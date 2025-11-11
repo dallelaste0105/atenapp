@@ -23,19 +23,20 @@ async function getQuestionByAllModel(subTopicName, difficultyString, howMany) {
 async function addPoints(userId, leagueId, points) {
   return new Promise((resolve, reject) => {
     const query = `UPDATE userleague SET points = ? WHERE userId = ? AND leagueId = ?`;
-    
+
     db.query(query, [points, userId, leagueId], (error, result) => {
       if (error) {
         console.error("❌ Erro no UPDATE addPoints:", error);
         return reject(error);
       }
+
       if (result.affectedRows === 0) {
         console.error("⚠ Nenhum registro foi atualizado. Verifique userId e leagueId.");
         return reject(new Error("Nenhum registro foi atualizado. userId/leagueId inválido."));
       }
 
       console.log("✅ Pontos atualizados com sucesso no banco!");
-      resolve({ message: 'Pontos atualizados com sucesso.' });
+      resolve({ message: "Pontos atualizados com sucesso." });
     });
   });
 }
