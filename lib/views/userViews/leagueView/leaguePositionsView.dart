@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muto_system/classes/leagueClass.dart';
 import 'package:muto_system/views/userViews/leagueView/filterQuestionsView.dart';
-import 'package:muto_system/views/userViews/leagueView/questionView.dart';
 import 'package:muto_system/views/widgets/competitorWidget.dart';
 
 final LeagueClassInstance = LeagueClass();
@@ -13,24 +12,28 @@ class LeagueScreen extends StatefulWidget {
 }
 
 class _LeagueScreenState extends State<LeagueScreen> {
-  bool _loading = true; // controla o carregamento
+  bool _loading = true;
 
   @override
   void initState() {
     super.initState();
-    _loadCompetitors(); // chama função async separada
+    _loadCompetitors();
   }
 
   Future<void> _loadCompetitors() async {
-    // Só busca se ainda não foi feita a requisição
-    if (_firstExecution == false) {
-      await LeagueClassInstance.getCompetitorsLeague();
-      _firstExecution = true;
-    }
-    // Atualiza o estado pra reconstruir a tela
+    await LeagueClassInstance.getCompetitorsLeague();
     setState(() {
       _loading = false;
+      _firstExecution = true;
     });
+  }
+
+  Future<void> _reloadPage() async {
+    setState(() {
+      _loading = true;
+      _firstExecution = false;
+    });
+    await _loadCompetitors();
   }
 
   @override
@@ -42,7 +45,15 @@ class _LeagueScreenState extends State<LeagueScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Liga')),
+      appBar: AppBar(
+        title: const Text('Liga'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: _reloadPage, // botão de recarregar
+          ),
+        ],
+      ),
       body: FutureBuilder(
         future: LeagueClassInstance.showCompetitorsList(),
         builder: (context, snapshot) {
@@ -60,6 +71,9 @@ class _LeagueScreenState extends State<LeagueScreen> {
               return const Center(child: Text("Nenhum participante encontrado"));
             }
 
+            // 🔽 Ordena por pontos (maior → menor)
+            data.sort((a, b) => (b['points'] ?? 0).compareTo(a['points'] ?? 0));
+
             return ListView.builder(
               itemCount: data.length,
               itemBuilder: (context, index) {
@@ -75,9 +89,12 @@ class _LeagueScreenState extends State<LeagueScreen> {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => FilterScreen()));
-      }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => FilterScreen()));
+        },
+        child: const Icon(Icons.play_arrow),
+      ),
     );
   }
 }

@@ -46,26 +46,24 @@ async function createNewLeague(league) {
 
 async function getCompetitorsLeague(leagueId) {
   return new Promise((resolve, reject) => {
-    const query = `SELECT userId FROM userleague WHERE leagueId = ?`;
+    const query = `
+      SELECT 
+        u.id,
+        u.name,
+        u.email,
+        ul.points
+      FROM userleague ul
+      JOIN user u ON u.id = ul.userId
+      WHERE ul.leagueId = ?;
+    `;
 
     db.query(query, [leagueId], (error, result) => {
       if (error) return reject(error);
-
-      const leagueUsers = result.map(row => row.userId);
-
-      if (leagueUsers.length === 0)
-        return resolve([{ name: "Seox", email: "dfs@hto" }, { name: "Seox", email: "dfs@hto" }]);
-
-      const placeholders = leagueUsers.map(() => '?').join(',');
-      const query2 = `SELECT * FROM user WHERE id IN (${placeholders})`;
-
-      db.query(query2, leagueUsers, (error2, result2) => {
-        if (error2) return reject(error2);
-        resolve(result2);
-      });
+      resolve(result);
     });
   });
 }
+
 
 async function verifyUserLeagueAndPoints(userId) {
   return new Promise((resolve, reject) => {

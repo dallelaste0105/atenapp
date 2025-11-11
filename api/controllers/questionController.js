@@ -30,7 +30,7 @@ async function getQuestionController(req, res) {
 
 async function addPointsContextConnection(req, res) {
   const { context, accuracy } = req.body;
-  const { id, userType } = req.userData;
+  const id = req.userData.id;
 
   const pointsMap = {
     'Fácil': 10,
