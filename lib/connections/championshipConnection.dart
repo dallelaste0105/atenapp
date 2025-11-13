@@ -1,13 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-
-const String baseUrl = "http://10.0.30.164:3000";
-
-Future<String?> getToken() async {
-  final prefs = await SharedPreferences.getInstance();
-  return prefs.getString("token");
-}
+import 'package:muto_system/connections/credentialConnection.dart';
 
 Future<String> createChampionshipConnection(
   name,

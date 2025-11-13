@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:muto_system/views/userViews/leagueView/leaguePositionsView.dart';
 
+
 class UserPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => PageView(

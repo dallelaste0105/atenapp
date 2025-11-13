@@ -30,7 +30,7 @@ async function credentialControllerSignup(req, res) {
         const bcrypt_password = await bcrypt.hash(password, 10);
         let school = await credentialModel.credentialModelWhichSchool(schoolName);
 
-        if (!school) {
+        if (!school && !schoolName && !yourCode) {
             const ok = await credentialModel.credentialModelUserSignup(name, email, bcrypt_password);
             const userId = await credentialModel.selectId(name, "user");
             const leagueId = await leagueModel.existLeagues("Iron")
@@ -47,6 +47,9 @@ async function credentialControllerSignup(req, res) {
             
             if (ok) return res.status(200).json({ message: 'Usuário cadastrado com sucesso!' });
             return res.status(500).json({ message: 'Problemas ao cadastrar usuário' });
+        }
+        else{
+            return res.status(500).json({message:"Nome e/ou código de escola inválido(s)"})
         }
 
         if (yourCode === school.teachercode) {
@@ -77,7 +80,7 @@ async function credentialControllerSignup(req, res) {
             
         }
 
-        return res.status(400).json({ message: 'Código inválido!' });
+        return res.status(500).json({ message: 'Código inválido!' });
     } catch (error) {
         console.error('credentialControllerSignup error:', error);
         return res.status(500).json({ message: 'Erro no servidor' });

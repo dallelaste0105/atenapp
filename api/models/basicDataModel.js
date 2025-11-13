@@ -20,7 +20,7 @@ async function userBasicDataLoader(id, userType) {
           if (error3) return reject(error3);
           const name = (result3 && result3.length > 0) ? result3[0].name : null;
 
-          resolve({ name: name, leagueId: leagueId, leagueType: leagueType });
+          resolve({ "name": name, "leagueId": leagueId, "leagueType": leagueType, "userType": userType });
         });
       });
     });
