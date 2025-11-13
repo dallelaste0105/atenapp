@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:muto_system/connections/credentialConnection.dart';
 import 'package:muto_system/views/generalViews/loginView.dart';
-import 'package:muto_system/configs/colors.dart' as ThemeColors;
-import 'package:muto_system/views/userViews/homeView/homeView.dart';
+import 'package:muto_system/views/userViews/leagueView/leaguePositionsView.dart';
 
 class CredentialView extends StatefulWidget {
   const CredentialView({super.key});
@@ -68,7 +67,7 @@ class _CredentialViewState extends State<CredentialView> {
       if (success) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => const HomeView()),
+          MaterialPageRoute(builder: (_) => LeagueScreen()),
         );
       }
     } catch (e) {

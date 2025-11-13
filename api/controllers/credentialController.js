@@ -100,7 +100,7 @@ async function credentialControllerLogin(req, res) {
             const passwordMatch = await bcrypt.compare(password, user.password);
             if (passwordMatch) {
                 const createdJwt = createJwt(user.id, userType);
-                return res.status(200).json({ token: createdJwt }); 
+                return res.status(200).json({message:"userLogin" , token: createdJwt }); 
             }
             return res.status(500).json({ message: 'Credenciais inválidas' });
         }
@@ -113,7 +113,7 @@ async function credentialControllerLogin(req, res) {
             if (passwordMatch) {
                 const school = await credentialModel.credentialModelRelationTableLoginVerification("schoolstudent", "student_id", student.id);
                 const createdJwt = createJwt(student.id, userType);
-                return res.status(200).json({ token: createdJwt });
+                return res.status(200).json({message:"studentLogin" , token: createdJwt });
             }
             return res.status(500).json({ message: 'Credenciais inválidas' });
         }
@@ -126,7 +126,7 @@ async function credentialControllerLogin(req, res) {
             if (passwordMatch) {
                 const school = await credentialModel.credentialModelRelationTableLoginVerification("schoolteacher", "teacher_id", teacher.id);
                 const createdJwt = createJwt(school.id, userType);
-                return res.status(200).json({ token: createdJwt });
+                return res.status(200).json({message:"teacherLogin" , token: createdJwt });
             }
             return res.status(500).json({ message: 'Credenciais inválidas' });
         }

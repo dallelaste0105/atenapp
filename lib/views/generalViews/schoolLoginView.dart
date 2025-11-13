@@ -1,12 +1,8 @@
-/*import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:muto_system/connections/credentialConnection.dart'; // ADICIONADO
-import 'package:muto_system/views/credentialViews/schoolSignupView.dart';
-import 'package:muto_system/views/credentialViews/signupView.dart';
-import 'package:muto_system/configs/colors.dart' as ThemeColors;
-import 'package:muto_system/views/userViews/homeView/homeView.dart';
-
-// Controllers removidos daqui
+import 'package:muto_system/connections/credentialConnection.dart'; 
+import 'package:muto_system/views/generalViews/schoolSignupView.dart';
+import 'package:muto_system/views/userViews/pageViews.dart';
 
 class SchoolCredentialViewLogin extends StatefulWidget {
   const SchoolCredentialViewLogin({super.key});
@@ -17,11 +13,9 @@ class SchoolCredentialViewLogin extends StatefulWidget {
 }
 
 class _SchoolCredentialViewLoginState extends State<SchoolCredentialViewLogin> {
-  // Controllers movidos para cá (como no seu signup)
   final TextEditingController name = TextEditingController();
   final TextEditingController password = TextEditingController();
 
-  // Função showSnack (copiada do seu signup)
   void showSnack(String message, bool success) {
     final snackBar = SnackBar(
       content: Text(message),
@@ -37,7 +31,6 @@ class _SchoolCredentialViewLoginState extends State<SchoolCredentialViewLogin> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        backgroundColor: ThemeColors.Colors.background_black,
         body: Center(
           child: SingleChildScrollView(
             child: Container(
@@ -98,7 +91,6 @@ class _SchoolCredentialViewLoginState extends State<SchoolCredentialViewLogin> {
                     height: 50,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: ThemeColors.Colors.background_black,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -136,18 +128,14 @@ class _SchoolCredentialViewLoginState extends State<SchoolCredentialViewLogin> {
                             // Se for um erro conhecido, mostre o snack
                             showSnack(loginAnswer, false);
                           } else if (loginAnswer.length > 40) {
-                            // Se for uma string longa (token)
-                            // Sucesso, navegue para a HomeView
-                            // Use pushReplacement para não deixar o usuário voltar para o login
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    HomeView(token: loginAnswer),
+                                    SchoolPageView()
                               ),
                             );
                           } else {
-                            // Se for qualquer outra resposta inesperada
                             showSnack(
                               loginAnswer.isNotEmpty
                                   ? loginAnswer
@@ -211,4 +199,3 @@ class _SchoolCredentialViewLoginState extends State<SchoolCredentialViewLogin> {
     );
   }
 }
-*/

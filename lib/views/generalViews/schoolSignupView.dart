@@ -1,10 +1,8 @@
-/*import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:muto_system/connections/credentialConnection.dart';
-import 'package:muto_system/views/credentialViews/loginView.dart';
-import 'package:muto_system/configs/colors.dart' as ThemeColors;
-import 'package:muto_system/views/credentialViews/schoolLoginView.dart';
-import 'package:muto_system/views/credentialViews/signupView.dart';
+import 'package:muto_system/views/generalViews/signupView.dart';
+import 'package:muto_system/views/userViews/leagueView/leaguePositionsView.dart';
 
 class schoolCredentialView extends StatefulWidget {
   const schoolCredentialView({super.key});
@@ -37,7 +35,6 @@ class _schoolCredentialViewState extends State<schoolCredentialView> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        backgroundColor: ThemeColors.Colors.background_black,
         body: Center(
           child: SingleChildScrollView(
             child: Container(
@@ -111,7 +108,6 @@ class _schoolCredentialViewState extends State<schoolCredentialView> {
                     width: double.maxFinite,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: ThemeColors.Colors.background_black,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
@@ -179,7 +175,7 @@ class _schoolCredentialViewState extends State<schoolCredentialView> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      SchoolCredentialViewLogin(),
+                                      LeagueScreen(),
                                 ),
                               );
                             },
@@ -207,4 +203,3 @@ class _schoolCredentialViewState extends State<schoolCredentialView> {
     );
   }
 }
-*/
