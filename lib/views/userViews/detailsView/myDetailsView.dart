@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:muto_system/classes/basicData.dart'; // Mantenha sua classe
+import 'package:Atena/classes/basicData.dart'; // Mantenha sua classe
 
 final BasicDataClassInstance = BasicDataClass();
 

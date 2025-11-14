@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // Importe suas classes e a tela de destino
-import 'package:muto_system/classes/questionClass.dart';
-import 'package:muto_system/views/userViews/leagueView/questionView.dart'; // Verifique se este é o caminho correto para QuestionScreen
+import 'package:Atena/classes/questionClass.dart';
+import 'package:Atena/views/userViews/leagueView/questionView.dart'; // Verifique se este é o caminho correto para QuestionScreen
 
 final QuestionClassInstance = QuestionClass();
 bool _firstExecution = false;

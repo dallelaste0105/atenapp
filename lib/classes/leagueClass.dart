@@ -1,4 +1,4 @@
-import 'package:muto_system/connections/leagueConnection.dart';
+import 'package:Atena/connections/leagueConnection.dart';
 
 class LeagueClass {
   List<dynamic> competitorsList = [];

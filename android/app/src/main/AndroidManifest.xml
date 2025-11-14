@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="muto_system"
+        android:label="Atena"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

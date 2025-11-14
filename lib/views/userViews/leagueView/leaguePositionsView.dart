@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:muto_system/classes/leagueClass.dart';
-import 'package:muto_system/views/userViews/leagueView/filterQuestionsView.dart';
-import 'package:muto_system/views/widgets/competitorWidget.dart';
+import 'package:Atena/classes/leagueClass.dart';
+import 'package:Atena/views/userViews/leagueView/filterQuestionsView.dart';
+import 'package:Atena/views/widgets/competitorWidget.dart';
 
 final LeagueClassInstance = LeagueClass();
 bool _firstExecution = false;

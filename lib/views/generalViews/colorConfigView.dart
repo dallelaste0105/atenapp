@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Color primaryColor = const Color(0xFF121212); 
-Color secondaryColor = const Color(0xFFFFFFFF); 
-Color tertiaryColor = const Color(0xFF1E88E5); 
-Color quaternaryColor = const Color(0xFF90CAF9); 
-Color quinternaryColor = const Color(0xFFBBDEFB); 
+Color primaryColor = const Color(0xFF0D47A1);
+Color secondaryColor = const Color(0xFF1565C0);
+Color tertiaryColor = const Color(0xFF1976D2);
+Color quaternaryColor = const Color(0xFFBBDEFB);
+Color quinternaryColor = const Color(0xFFE3F2FD);
 
-Color darkPrimaryColor = const Color(0xFF121212);
-Color darkSecondaryColor = const Color(0xFFFFFFFF);
-Color darkTertiaryColor = const Color(0xFF1E88E5);
-Color darkQuaternaryColor = const Color(0xFF90CAF9);
-Color darkQuinternaryColor = const Color(0xFFBBDEFB);
+Color darkPrimaryColor = const Color.fromARGB(255, 223, 224, 226);
+Color darkSecondaryColor = const Color.fromARGB(255, 22, 48, 93);
+Color darkTertiaryColor = const Color.fromARGB(255, 60, 82, 145);
+Color darkQuaternaryColor = const Color.fromARGB(255, 9, 12, 44);
+Color darkQuinternaryColor = const Color.fromARGB(255, 9, 12, 15);
 
-Color lightPrimaryColor = const Color(0xFFFFFFFF);
-Color lightSecondaryColor = const Color(0xFF000000);
-Color lightTertiaryColor = const Color(0xFF1976D2);
-Color lightQuaternaryColor = const Color(0xFF64B5F6);
-Color lightQuinternaryColor = const Color(0xFFBBDEFB);
+Color lightPrimaryColor = const Color(0xFF0D47A1);
+Color lightSecondaryColor = const Color(0xFF1976D2);
+Color lightTertiaryColor = const Color(0xFF42A5F5);
+Color lightQuaternaryColor = const Color(0xFFBBDEFB);
+Color lightQuinternaryColor = const Color(0xFFE3F2FD);
 
 class ColorConfig {
   Future<void> saveColorConfig(String color) async {

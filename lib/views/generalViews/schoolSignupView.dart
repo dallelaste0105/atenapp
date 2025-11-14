@@ -1,8 +1,8 @@
+import 'package:Atena/views/generalViews/userLoginView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:muto_system/connections/credentialConnection.dart';
-import 'package:muto_system/views/generalViews/signupView.dart';
-import 'package:muto_system/views/userViews/leagueView/leaguePositionsView.dart';
+import 'package:Atena/connections/credentialConnection.dart';
+import 'package:Atena/views/userViews/leagueView/leaguePositionsView.dart';
 
 class schoolCredentialView extends StatefulWidget {
   const schoolCredentialView({super.key});
@@ -188,7 +188,7 @@ class _schoolCredentialViewState extends State<schoolCredentialView> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CredentialView(),
+                          builder: (context) => UserLoginView(),
                         ),
                       );
                     },

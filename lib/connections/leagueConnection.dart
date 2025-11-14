@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:muto_system/connections/credentialConnection.dart';
+import 'package:Atena/connections/credentialConnection.dart';
 
 Future<List> getCompetitorsLeagueConnection() async {
   try {

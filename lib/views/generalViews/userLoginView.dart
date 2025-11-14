@@ -1,27 +1,33 @@
-import 'package:Atena/views/generalViews/userLoginView.dart';
+import 'package:Atena/views/generalViews/userSignupView.dart';
+import 'package:Atena/views/userViews/pageViews.dart';
 import 'package:flutter/material.dart';
 import 'package:Atena/connections/credentialConnection.dart';
 import 'package:Atena/views/generalViews/colorConfigView.dart';
 
-class UserSignupView extends StatefulWidget {
+class UserLoginView extends StatefulWidget {
   @override
-  State<UserSignupView> createState() => _UserSignupViewState();
+  State<UserLoginView> createState() => _UserLoginViewState();
 }
 
-class _UserSignupViewState extends State<UserSignupView> {
+class _UserLoginViewState extends State<UserLoginView> {
 
   TextEditingController name = TextEditingController();
-  TextEditingController email = TextEditingController();
   TextEditingController password= TextEditingController();
-  TextEditingController schoolName = TextEditingController();
-  TextEditingController code = TextEditingController();
+  TextEditingController userType = TextEditingController();
 
 
-Future<void> signup () async {
-  String signupStatus = await signupCredentialConnection(name.text, email.text, password.text, schoolName.text, code.text);
-    if (signupStatus == "Usuário cadastrado com sucesso!") {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => UserSignupView()));
+Future<void> login () async {
+  String signupStatus = await loginCredentialConnection(name.text, password.text, userType.text);
+    if (signupStatus == "userLogin") {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => UserPageView()));
     }
+    else if (signupStatus == "studentLogin") {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => StudentPageView()));
+    }
+    if (signupStatus == "teacherLogin") {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => TeacherPageView()));
+    }
+    
     else {
       showModalBottomSheet(context: context, builder: (context) { return Container( padding: EdgeInsets.all(20), child: Text(signupStatus));});
       }
@@ -66,22 +72,7 @@ Future<void> signup () async {
                   ),
                 ),
                 TextField(
-                  controller: email,
-                  style: TextStyle(color: primaryColor),
-                  decoration: InputDecoration(
-                    labelText: "Email",
-                    labelStyle: TextStyle(color: tertiaryColor),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: tertiaryColor),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: quinternaryColor, width: 2),
-                    ),
-                  ),
-                ),
-                TextField(
                   controller: password,
-                  obscureText: true,
                   style: TextStyle(color: primaryColor),
                   decoration: InputDecoration(
                     labelText: "Senha",
@@ -94,11 +85,18 @@ Future<void> signup () async {
                     ),
                   ),
                 ),
-                TextField(
-                  controller: schoolName,
-                  style: TextStyle(color: primaryColor),
+                DropdownButtonFormField<String>(
+                  value: userType.text.isEmpty ? null : userType.text,
+                  items: [
+                    DropdownMenuItem(value: "user", child: Text("Usuário")),
+                    DropdownMenuItem(value: "student", child: Text("Estudante")),
+                    DropdownMenuItem(value: "teacher", child: Text("Professor")),
+                  ],
+                  onChanged: (value) {
+                    userType.text = value!;
+                  },
                   decoration: InputDecoration(
-                    labelText: "Nome da escola",
+                    labelText: "Tipo de usuário",
                     labelStyle: TextStyle(color: tertiaryColor),
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: tertiaryColor),
@@ -107,26 +105,16 @@ Future<void> signup () async {
                       borderSide: BorderSide(color: quinternaryColor, width: 2),
                     ),
                   ),
-                ),
-                TextField(
-                  controller: code,
+                  dropdownColor: secondaryColor,
                   style: TextStyle(color: primaryColor),
-                  decoration: InputDecoration(
-                    labelText: "Código",
-                    labelStyle: TextStyle(color: tertiaryColor),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: tertiaryColor),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: quinternaryColor, width: 2),
-                    ),
-                  ),
                 ),
+
+          
 
                 const SizedBox(height: 20),
 
                 ElevatedButton(
-                  onPressed: () { signup(); },
+                  onPressed: () { login(); },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: tertiaryColor,
                     foregroundColor: secondaryColor,
@@ -134,7 +122,7 @@ Future<void> signup () async {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     elevation: 6,
                   ),
-                  child: const Text("Sign Up"),
+                  child: const Text("Login"),
                 ),
 
                 const SizedBox(height: 10),
@@ -149,10 +137,10 @@ Future<void> signup () async {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => UserLoginView()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => UserSignupView()));
                   },
                   child: Text(
-                    "Já tenho conta",
+                    "Não tenho conta",
                     style: TextStyle(color: tertiaryColor),
                   ),
                 ),

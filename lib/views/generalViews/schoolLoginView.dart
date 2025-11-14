@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:muto_system/connections/credentialConnection.dart'; 
-import 'package:muto_system/views/generalViews/schoolSignupView.dart';
-import 'package:muto_system/views/userViews/pageViews.dart';
+import 'package:Atena/connections/credentialConnection.dart'; 
+import 'package:Atena/views/generalViews/schoolSignupView.dart';
+import 'package:Atena/views/userViews/pageViews.dart';
 
 class SchoolCredentialViewLogin extends StatefulWidget {
   const SchoolCredentialViewLogin({super.key});

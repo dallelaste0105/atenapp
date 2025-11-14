@@ -1,5 +1,5 @@
-import 'package:muto_system/connections/basicData.dart';
-import 'package:muto_system/connections/leagueConnection.dart';
+import 'package:Atena/connections/basicData.dart';
+import 'package:Atena/connections/leagueConnection.dart';
 
 class BasicDataClass {
   Map data = {};
