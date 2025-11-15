@@ -16,6 +16,7 @@ dependencies:
   adaptive_theme: ^3.7.2
   dart_jsonwebtoken: ^2.11.0
   cupertino_icons: ^1.0.8
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:

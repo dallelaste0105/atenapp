@@ -1,19 +1,22 @@
-import 'package:Atena/connections/credentialConnection.dart';
+import 'package:Atena/views/userViews/configView/themeNotifier.dart';
 import 'package:flutter/material.dart';
-import 'package:Atena/views/userViews/configView/configView.dart';
-import 'package:Atena/views/pageViews.dart';
-import 'package:Atena/views/generalViews/userSignupView.dart';
-import 'package:Atena/connections/basicData.dart';
+import 'package:provider/provider.dart';
+import 'views/generalViews/userSignupView.dart';
+import 'views/pageViews.dart';
+import 'connections/basicData.dart';
+import 'connections/credentialConnection.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  final colorConfig = ColorConfig();
-  await colorConfig.getColorConfig(); 
 
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ThemeNotifier(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -21,9 +24,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
+      theme: themeNotifier.themeData,
       home: const AuthCheckScreen(),
       routes: {
         '/login': (context) => UserSignupView(),
@@ -50,24 +56,16 @@ class _AuthCheckScreenState extends State<AuthCheckScreen> {
 
   Future<String> _loadUserType() async {
     try {
-      final colorConfig = ColorConfig();
-      await colorConfig.getColorConfig(); // ← garante cores corretas
-
       final userBasicData = await getUserBasicDataConnection();
-
       if (userBasicData.isNotEmpty &&
           userBasicData.containsKey("userType") &&
           userBasicData["userType"] != null) {
         return userBasicData["userType"].toString();
       }
-
-      debugPrint("Token inválido (sem userType). Limpando token local.");
-      await deleteToken(); 
+      await deleteToken();
       return "";
-
     } catch (e) {
-      debugPrint("Erro ao carregar usuário: $e");
-      await deleteToken(); 
+      await deleteToken();
       return "";
     }
   }
@@ -77,41 +75,26 @@ class _AuthCheckScreenState extends State<AuthCheckScreen> {
     return FutureBuilder<String>(
       future: _loadUserFuture,
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (!snapshot.hasData) {
           return Scaffold(
             body: Center(
-              child: Image.asset(
-                'assets/logoWithoutBackground.png',
-                width: 200,
-                height: 200,
-              ),
+              child: CircularProgressIndicator(),
             ),
           );
         }
 
-        if (snapshot.hasError) {
-          debugPrint("Erro no FutureBuilder: ${snapshot.error}");
-          return UserSignupView();
+        switch (snapshot.data) {
+          case "user":
+            return UserPageView();
+          case "student":
+            return StudentPageView();
+          case "teacher":
+            return TeacherPageView();
+          case "school":
+            return SchoolPageView();
+          default:
+            return UserSignupView();
         }
-
-        if (snapshot.hasData) {
-          final userType = snapshot.data!;
-
-          switch (userType) {
-            case "user":
-              return UserPageView();
-            case "student":
-              return StudentPageView();
-            case "teacher":
-              return TeacherPageView();
-            case "school":
-              return SchoolPageView();
-            default:
-              return UserSignupView();
-          }
-        }
-
-        return UserSignupView();
       },
     );
   }

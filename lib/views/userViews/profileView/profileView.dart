@@ -1,5 +1,7 @@
 import 'package:Atena/views/userViews/configView/configView.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:Atena/views/userViews/configView/themeNotifier.dart';
 
 class UserProfileView extends StatefulWidget {
   @override
@@ -7,19 +9,27 @@ class UserProfileView extends StatefulWidget {
 }
 
 class _UserProfileViewState extends State<UserProfileView> {
-  Widget _buildStatColumn(String label, String value) {
+  Widget _buildStatColumn(BuildContext context, String label, String value) {
+    final theme = Provider.of<ThemeNotifier>(context);
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
           value,
           style: TextStyle(
-              fontSize: globalFontSize, fontWeight: FontWeight.bold, color: Colors.white),
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: theme.themeData.colorScheme.primary,
+          ),
         ),
         const SizedBox(height: 4),
         Text(
           label,
-          style: TextStyle(fontSize: 14, color: primaryColor),
+          style: TextStyle(
+            fontSize: 14,
+            color: theme.themeData.colorScheme.secondary,
+          ),
         ),
       ],
     );
@@ -27,70 +37,94 @@ class _UserProfileViewState extends State<UserProfileView> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Provider.of<ThemeNotifier>(context);
+
+    final isDark = theme.themeData.brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: quinternaryColor,
+      backgroundColor: theme.themeData.scaffoldBackgroundColor,
       body: Center(
         child: Column(
           children: [
-            Container(
+            SizedBox(
               width: double.infinity,
               height: 380,
               child: Stack(
-                alignment: Alignment.topCenter,
                 children: [
+                  // ------------ FUNDO ----------------
                   Container(
                     height: 250,
                     width: double.infinity,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage(
-                            'https://tecnico-informatica.concordia.ifc.edu.br/wp-content/uploads/sites/20/2017/12/IMG-20171128-WA0003.jpg'),
+                        image: const NetworkImage(
+                          'https://tecnico-informatica.concordia.ifc.edu.br/wp-content/uploads/sites/20/2017/12/IMG-20171128-WA0003.jpg',
+                        ),
                         fit: BoxFit.cover,
                         colorFilter: ColorFilter.mode(
-                          Colors.black54,
+                          isDark ? Colors.black87 : Colors.black54,
                           BlendMode.darken,
                         ),
                       ),
                     ),
                   ),
 
+                  // ------------ BOTÃO CONFIG ----------------
+                  Positioned(
+                    top: 35,
+                    right: 16,
+                    child: IconButton(
+                      icon: Icon(Icons.settings,
+                          color: Colors.white, size: 30),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ConfigView(),
+                          ),
+                        ).then((value) {
+                          setState(() {});
+                        });
+                      },
+                    ),
+                  ),
+
+                  // ------------ CONTEÚDO CENTRAL ----------------
                   Positioned(
                     top: 40,
+                    left: 0,
+                    right: 0,
                     child: Column(
                       children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ConfigView()),
-                            ).then((value) {
-                              setState(() {}); // ← atualiza tema ao voltar
-                            });
-                          },
-                          child: const Icon(Icons.color_lens),
-                        ),
                         const CircleAvatar(
                           radius: 50,
                           backgroundImage: NetworkImage(
-                              "https://avatars.githubusercontent.com/u/129172387?v=4"),
+                            "https://avatars.githubusercontent.com/u/129172387?v=4",
+                          ),
                         ),
                         const SizedBox(height: 12),
-                        const Text(
+                        Text(
                           'Maurício Reis Doefer',
                           style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'Estudante do IFC',
-                          style: TextStyle(fontSize: 16, color: primaryColor),
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: theme.themeData.colorScheme.secondary,
+                          ),
                         ),
                         const SizedBox(height: 12),
                         Container(
-                          padding:
-                              const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.black.withOpacity(0.3),
                             borderRadius: BorderRadius.circular(20),
@@ -101,9 +135,11 @@ class _UserProfileViewState extends State<UserProfileView> {
                               Icon(Icons.local_fire_department,
                                   color: Colors.orange, size: 18),
                               SizedBox(width: 6),
-                              Text('224 dias',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 14)),
+                              Text(
+                                '224 dias',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 14),
+                              ),
                             ],
                           ),
                         ),
@@ -111,27 +147,29 @@ class _UserProfileViewState extends State<UserProfileView> {
                     ),
                   ),
 
+                  // ------------ CARD INFERIOR ----------------
                   Positioned(
                     bottom: 0,
                     left: 16,
                     right: 16,
                     child: Card(
-                      color: secondaryColor,
+                      color: theme.themeData.cardColor,
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            _buildStatColumn('Avançado', 'Mat. 32/78'),
-                            _buildStatColumn('Nível', '54'),
-                            _buildStatColumn('Liga', 'Platina (2º)'),
+                            _buildStatColumn(context, 'Avançado', 'Mat. 32/78'),
+                            _buildStatColumn(context, 'Nível', '54'),
+                            _buildStatColumn(context, 'Liga', 'Platina (2º)'),
                           ],
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
