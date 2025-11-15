@@ -182,20 +182,8 @@ async function credentialModelRelationTableLoginVerification(relation_table, rel
   });
 }
 
-async function teste(name, userType) {
-    return new Promise((resolve, reject) => {
-        const query = `SELECT * FROM \`${userType}\` WHERE name = ?`;
-        db.query(query, [name], (error, result) => {
-            if (error) {
-                return reject(error);
-            }
-            return resolve(result && result.length > 0 ? result[0] : null);
-        });
-    });
-}
-
 
 module.exports = {credentialModelWhichSchool, credentialModelTeacherSignup, credentialModelStudentSignup, credentialModelUserSignup, credentialModelSchoolSignup, credentialModelSearchTeacher, credentialModelSearchStudent, credentialModelDoSchoolTeacherRelation, credentialModelDoSchoolStudentRelation, credentialModelVerifySchoolCode, selectId,
   credentialModelMainTableLoginVerification, credentialModelRelationTableLoginVerification,
-  teste
+  
 };

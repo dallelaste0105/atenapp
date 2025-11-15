@@ -1,7 +1,8 @@
+import 'package:Atena/views/generalViews/schoolSignupView.dart';
 import 'package:Atena/views/generalViews/userLoginView.dart';
 import 'package:flutter/material.dart';
 import 'package:Atena/connections/credentialConnection.dart';
-import 'package:Atena/views/generalViews/colorConfigView.dart';
+import 'package:Atena/views/userViews/configView/colorConfigView.dart';
 
 class UserSignupView extends StatefulWidget {
   @override
@@ -140,7 +141,7 @@ Future<void> signup () async {
                 const SizedBox(height: 10),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => UserSignupView()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SchoolSignupView()));
                   },
                   child: Text(
                     "Sou escola",

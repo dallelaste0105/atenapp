@@ -14,6 +14,11 @@ Future<String?> getToken() async {
   return prefs.getString("token");
 }
 
+Future<void> deleteToken() async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.remove("token");
+}
+
 Future<String> signupCredentialConnection(
   name,
   email,

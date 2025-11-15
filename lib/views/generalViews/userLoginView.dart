@@ -1,8 +1,9 @@
+import 'package:Atena/views/generalViews/schoolSignupView.dart';
 import 'package:Atena/views/generalViews/userSignupView.dart';
-import 'package:Atena/views/userViews/pageViews.dart';
+import 'package:Atena/views/pageViews.dart';
 import 'package:flutter/material.dart';
 import 'package:Atena/connections/credentialConnection.dart';
-import 'package:Atena/views/generalViews/colorConfigView.dart';
+import 'package:Atena/views/userViews/configView/colorConfigView.dart';
 
 class UserLoginView extends StatefulWidget {
   @override
@@ -14,6 +15,7 @@ class _UserLoginViewState extends State<UserLoginView> {
   TextEditingController name = TextEditingController();
   TextEditingController password= TextEditingController();
   TextEditingController userType = TextEditingController();
+  String? selectedUserType;
 
 
 Future<void> login () async {
@@ -24,7 +26,7 @@ Future<void> login () async {
     else if (signupStatus == "studentLogin") {
       Navigator.push(context, MaterialPageRoute(builder: (context) => StudentPageView()));
     }
-    if (signupStatus == "teacherLogin") {
+    else if (signupStatus == "teacherLogin") {
       Navigator.push(context, MaterialPageRoute(builder: (context) => TeacherPageView()));
     }
     
@@ -85,15 +87,20 @@ Future<void> login () async {
                     ),
                   ),
                 ),
+                 // estado para o dropdown
+
                 DropdownButtonFormField<String>(
-                  value: userType.text.isEmpty ? null : userType.text,
-                  items: [
+                  value: selectedUserType,
+                  items: const [
                     DropdownMenuItem(value: "user", child: Text("Usuário")),
                     DropdownMenuItem(value: "student", child: Text("Estudante")),
                     DropdownMenuItem(value: "teacher", child: Text("Professor")),
                   ],
                   onChanged: (value) {
-                    userType.text = value!;
+                    setState(() {
+                      selectedUserType = value;   // atualiza o dropdown
+                      userType.text = value ?? ""; // atualiza o controller
+                    });
                   },
                   decoration: InputDecoration(
                     labelText: "Tipo de usuário",
@@ -128,7 +135,7 @@ Future<void> login () async {
                 const SizedBox(height: 10),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => UserSignupView()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SchoolSignupView()));
                   },
                   child: Text(
                     "Sou escola",

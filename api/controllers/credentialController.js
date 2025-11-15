@@ -182,7 +182,7 @@ async function schoolLoginCredentialController(req, res) {
             const passwordMatch = await bcrypt.compare(password, user.password);
             if (passwordMatch) {
                 const createdJwt = createJwt(school.id, userType);
-                return res.status(200).json({ token: createdJwt }); 
+                return res.status(200).json({ message:"Escola fez login com sucesso", token: createdJwt }); 
             }
             return res.status(500).json({ message: 'Credenciais inválidas' });
         
@@ -192,15 +192,7 @@ async function schoolLoginCredentialController(req, res) {
     }
 }
 
-async function teste(req, res) {
-    const {name, userType} = req.userData;
-    const user = await credentialModel.teste(name, userType);
-    if (user) {
-        res.status(200).json({message:user.email});
-    }
-}
-
 module.exports = { credentialControllerSignup, credentialControllerLogin,
     schoolSignupCredentialController, schoolLoginCredentialController,
-    teste
+    
 };

@@ -1,205 +1,200 @@
+import 'package:Atena/views/generalViews/schoolLoginView.dart';
 import 'package:Atena/views/generalViews/userLoginView.dart';
+import 'package:Atena/views/generalViews/userSignupView.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
 import 'package:Atena/connections/credentialConnection.dart';
-import 'package:Atena/views/userViews/leagueView/leaguePositionsView.dart';
+import 'package:Atena/views/userViews/configView/colorConfigView.dart';
 
-class schoolCredentialView extends StatefulWidget {
-  const schoolCredentialView({super.key});
-
+class SchoolSignupView extends StatefulWidget {
   @override
-  State<schoolCredentialView> createState() => _schoolCredentialViewState();
+  State<SchoolSignupView> createState() => _SchoolSignupViewState();
 }
 
-class _schoolCredentialViewState extends State<schoolCredentialView> {
-  final TextEditingController name = TextEditingController();
-  final TextEditingController schoolCode = TextEditingController();
+class _SchoolSignupViewState extends State<SchoolSignupView> {
 
-  final TextEditingController email = TextEditingController();
-  final TextEditingController password = TextEditingController();
-  final TextEditingController teacherCode = TextEditingController();
-  final TextEditingController studentCode = TextEditingController();
+  TextEditingController name = TextEditingController();
+  TextEditingController schoolCode = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController teacherCode = TextEditingController();
+  TextEditingController studentCode = TextEditingController();
 
-  void showSnack(String message, bool success) {
-    final snackBar = SnackBar(
-      content: Text(message),
-      backgroundColor: success ? Colors.green : Colors.red,
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
+
+Future<void> signup () async {
+  String signupStatus = await schoolSignupCredentialConnection(name.text, email.text, password.text, schoolCode.text, teacherCode.text, studentCode.text);
+    if (signupStatus == "Escola se cadastrou com sucesso") {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => SchoolLoginView()));
+    }
+    else {
+      showModalBottomSheet(context: context, builder: (context) { return Container( padding: EdgeInsets.all(20), child: Text(signupStatus));});
+      }
+    }
+
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: Scaffold(
-        body: Center(
-          child: SingleChildScrollView(
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset("assets/img/logoAtena.png", width: 175),
-                  TextField(
-                    controller: name,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: "NOME",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: email,
-                    decoration: InputDecoration(
-                      labelText: "EMAIL",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
+  return Scaffold(
+    backgroundColor: quinternaryColor, 
+    body: Center(
+      child: SingleChildScrollView(
+        child: Card(
+          color: secondaryColor,
+          elevation: 10,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  'assets/images/logoWithoutBackground.png',
+                  height: 120,
+                ),
+                const SizedBox(height: 20),
 
-                  TextField(
-                    controller: password,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: "SENHA",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
+                TextField(
+                  controller: name,
+                  style: TextStyle(color: primaryColor),
+                  decoration: InputDecoration(
+                    labelText: "Nome",
+                    labelStyle: TextStyle(color: tertiaryColor),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: tertiaryColor),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: quinternaryColor, width: 2),
                     ),
                   ),
-                  const SizedBox(height: 12),
+                ),
+                TextField(
+                  controller: email,
+                  style: TextStyle(color: primaryColor),
+                  decoration: InputDecoration(
+                    labelText: "Email",
+                    labelStyle: TextStyle(color: tertiaryColor),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: tertiaryColor),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: quinternaryColor, width: 2),
+                    ),
+                  ),
+                ),
+                TextField(
+                  controller: password,
+                  style: TextStyle(color: primaryColor),
+                  decoration: InputDecoration(
+                    labelText: "Senha",
+                    labelStyle: TextStyle(color: tertiaryColor),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: tertiaryColor),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: quinternaryColor, width: 2),
+                    ),
+                  ),
+                ),
+                TextField(
+                  controller: name,
+                  style: TextStyle(color: primaryColor),
+                  decoration: InputDecoration(
+                    labelText: "Nome",
+                    labelStyle: TextStyle(color: tertiaryColor),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: tertiaryColor),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: quinternaryColor, width: 2),
+                    ),
+                  ),
+                ),
+                TextField(
+                  controller: studentCode,
+                  style: TextStyle(color: primaryColor),
+                  decoration: InputDecoration(
+                    labelText: "Código de estudante",
+                    labelStyle: TextStyle(color: tertiaryColor),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: tertiaryColor),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: quinternaryColor, width: 2),
+                    ),
+                  ),
+                ),
+                TextField(
+                  controller: teacherCode,
+                  style: TextStyle(color: primaryColor),
+                  decoration: InputDecoration(
+                    labelText: "Código de professor",
+                    labelStyle: TextStyle(color: tertiaryColor),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: tertiaryColor),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: quinternaryColor, width: 2),
+                    ),
+                  ),
+                ),
+                TextField(
+                  controller: schoolCode,
+                  style: TextStyle(color: primaryColor),
+                  decoration: InputDecoration(
+                    labelText: "Código da escola",
+                    labelStyle: TextStyle(color: tertiaryColor),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: tertiaryColor),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: quinternaryColor, width: 2),
+                    ),
+                  ),
+                ),
+                
 
-                  TextField(
-                    controller: teacherCode,
-                    decoration: InputDecoration(
-                      labelText: "CÓDIGO DOS PROFESSORES",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 12),
-                  TextField(
-                    controller: studentCode,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: "CÓDIGO DOS ALUNOS",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  // Botão login
-                  SizedBox(
-                    width: double.maxFinite,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                      ),
-                      onPressed: () {
-                        debugPrint("tentando cadastro");
-                      },
-                      child: const Text(
-                        "Cadastrar-se",
-                        style: TextStyle(fontSize: 24),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-                  ElevatedButton(
-                    onPressed: () async {
-                      try {
-                        final SignUpAnswer =
-                            await schoolSignupCredentialConnection(
-                              name.text,
-                              email.text,
-                              password.text,
-                              schoolCode.text,
-                              teacherCode.text,
-                              studentCode.text,
-                            );
+                ElevatedButton(
+                  onPressed: () { signup(); },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: tertiaryColor,
+                    foregroundColor: secondaryColor,
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    elevation: 6,
+                  ),
+                  child: const Text("Sign Up"),
+                ),
 
-                        switch (SignUpAnswer) {
-                          case "200":
-                            showSnack(SignUpAnswer, true);
-                            break;
-                          case "500":
-                            showSnack(SignUpAnswer, false);
-                            break;
-                          default:
-                            showSnack('Algo deu errado', false);
-                        }
-                      } catch (e) {
-                        showSnack('Erro inesperado: $e', false);
-                      }
-                    },
-                    child: Text("BOTÂO DO DALLE LASTE"),
+                const SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => UserSignupView()));
+                  },
+                  child: Text(
+                    "Sou aluno",
+                    style: TextStyle(color: tertiaryColor),
                   ),
-
-                  SizedBox(height: 15),
-                  // Cadastro
-                  RichText(
-                    text: TextSpan(
-                      text: "Você já tem uma conta? ",
-                      style: const TextStyle(color: Colors.black, fontSize: 12),
-                      children: [
-                        TextSpan(
-                          text: "Entre com ela",
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
-                            color: Colors.blue, // cor de link
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      LeagueScreen(),
-                                ),
-                              );
-                            },
-                        ),
-                      ],
-                    ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SchoolLoginView()));
+                  },
+                  child: Text(
+                    "Já tenho conta",
+                    style: TextStyle(color: tertiaryColor),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => UserLoginView(),
-                        ),
-                      );
-                    },
-                    child: Text("Para usuários"),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
+
 }
