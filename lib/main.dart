@@ -78,7 +78,10 @@ class _AuthCheckScreenState extends State<AuthCheckScreen> {
         if (!snapshot.hasData) {
           return Scaffold(
             body: Center(
-              child: CircularProgressIndicator(),
+              child: Image.asset(
+                    'assets/images/logoWithoutBackground.png',
+                    height: 120,
+                  )
             ),
           );
         }

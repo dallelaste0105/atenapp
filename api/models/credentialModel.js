@@ -182,8 +182,53 @@ async function credentialModelRelationTableLoginVerification(relation_table, rel
   });
 }
 
+/*=====
+school part
+=====*/
+
+async function verifyExistSchool(name) {
+    new Promise((resolve, reject) => {
+        const query = "SELECT name FROM school WHERE name = ?";
+        db.query(query, [name], (error, result) => {
+            if (error) {
+                return reject(error);
+            }
+            else{
+                return resolve(result);
+            }
+        })
+    })
+}
+
+async function verifySchoolCodeExist(schoolCode) {
+    new Promise((resolve, reject) => {
+        const query = "SELECT schoolcode FROM schoolcode WHERE schoolcode = ?";
+        db.query(query, [schoolCode], (error, result) => {
+            if (error) {
+                return reject(error);
+            }
+            else{
+                return resolve(result);
+            }
+        })
+    })
+}
+
+async function schoolSignup(name, email, password, teacherCode, studentCode) {
+    new Promise((resolve, reject) => {
+        const query = "INSERT INTO school (name, email, password, teacherCode, studentCode) VALUES (?, ?, ?, ?, ?)";
+        db.query(query, [name, email, password, teacherCode, studentCode], (error, result) => {
+            if (error) {
+                return reject(error);
+            }
+            else{
+                return resolve(result);
+            }
+        })
+    })
+}
 
 module.exports = {credentialModelWhichSchool, credentialModelTeacherSignup, credentialModelStudentSignup, credentialModelUserSignup, credentialModelSchoolSignup, credentialModelSearchTeacher, credentialModelSearchStudent, credentialModelDoSchoolTeacherRelation, credentialModelDoSchoolStudentRelation, credentialModelVerifySchoolCode, selectId,
   credentialModelMainTableLoginVerification, credentialModelRelationTableLoginVerification,
-  
+  verifyExistSchool, verifySchoolCodeExist, schoolSignup
 };

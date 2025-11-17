@@ -145,23 +145,22 @@ async function schoolSignupCredentialController(req, res) {
     const {name, email, password, schoolCode, teacherCode, studentCode} = req.body;
 
     try {
-        if (!name || !email || !password) {
+        if (!name || !email || !password || !schoolCode || !teacherCode || !studentCode) {
             return res.status(500).json({ message: 'Campos obrigatórios faltando!' });
         }
-        else if (schoolName && !yourCode) {
-            return res.status(500).json({ message: 'Você precisa de um código!' });
+        const existSchool = await credentialModel.verifyExistSchool(name);
+        const existCode = await credentialModel.verifySchoolCodeExist(schoolCode);
+        if(existSchool){
+            return res.status(500).json({message:"A escola já existe!"});
         }
-        else if(!schoolName && yourCode){
-            return res.status(500).json({ message: 'Todo código tem uma escola!' });
-        }
-        else if(await credentialModel.credentialModelMainTableLoginVerification('user', name) || await credentialModel.credentialModelMainTableLoginVerification('student', name) || await credentialModel.credentialModelMainTableLoginVerification('teacher', name) || await credentialModel.credentialModelMainTableLoginVerification('school', name)){
-            return res.status(500).json({message:"Já existe um usuário com esse nome"});
-        }
-        if (await credentialModelVerifySchoolCode(schoolCode)) {
-            const bcrypt_password = await bcrypt.hash(password, 10);
-            if (await credentialModel.credentialModelSchoolSignup(name, email, password, schoolCode, teacherCode, studentCode)) {
-                return res.status(200).json({message:"Escola se cadastrou com sucesso"})
+        else if(existCode){
+            const signup = await credentialModel.schoolSignup(name, email, password, teacherCode, studentCode);
+            if (signup) {
+                return res.status(200).json({message:"Escola cadastrada com sucesso"});
             }
+        }
+        else{
+            return res.status(500).json({message:"O código da escola não existe!"})
         }
     } catch (error) {
         
