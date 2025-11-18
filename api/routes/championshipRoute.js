@@ -5,6 +5,11 @@ const jwtMiddlewareController = require('../controllers/otherControllers/jwtMidd
 
 // routes mounted at /championship
 
-router.post('/getquestion', jwtMiddlewareController.jwtMiddleware, championshipController.createChampionshipController);
+router.post('/createchampionship', jwtMiddlewareController.jwtMiddleware, championshipController.createChampionshipController);
+router.post('/searchchampionship', jwtMiddlewareController.jwtMiddleware, championshipController.searchChampionshipController);
+router.post('/enterchampionship', jwtMiddlewareController.jwtMiddleware, championshipController.enterChampionshipController);
+router.post('/createvent', jwtMiddlewareController.jwtMiddleware, championshipController.createChampionshipEventController);
+router.get('/getchampionships', jwtMiddlewareController.jwtMiddleware, championshipController.getChampionships);
+
 
 module.exports = router;
