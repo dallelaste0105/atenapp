@@ -27,7 +27,7 @@ async function credentialModelTeacherSignup(name, email, password) {
 
 async function credentialModelStudentSignup(name, email, password) {
     return new Promise((resolve, reject) => {
-        const query = "INSERT INTO student (name, email, password) VALUES (?, ?, ?)";
+        const query = "INSERT INTO student (name, email, password, level) VALUES (?, ?, ?, 0)";
         db.query(query, [name, email, password], (error, result) => {
             if (error) {
                 console.error('credentialModelStudentSignup error:', error);
@@ -150,27 +150,6 @@ async function selectId(name, userType) {
 
 //-----Login part-----
 
-async function credentialModelMainTableLoginVerification(main_table, name) {
-  return new Promise((resolve, reject) => {
-    const query = `SELECT * FROM \`${main_table}\` WHERE name = ?`;
-    db.query(query, [name], (error, results) => {
-      
-      if (error) {
-        console.error("Erro na query do Model:", error);
-        return reject(error);
-      }
-
-      if (results && results.length > 0) {
-        return resolve(results[0]);
-      } 
-      
-      else {
-        return resolve(null); 
-      }
-    });
-  });
-}
-
 async function credentialModelRelationTableLoginVerification(relation_table, relation_id, id) {
   return new Promise((resolve, reject) => {
     const query = `SELECT * FROM \`${relation_table}\` WHERE \`${relation_id}\` = ?`;
@@ -187,46 +166,54 @@ school part
 =====*/
 
 async function verifyExistSchool(name) {
-    new Promise((resolve, reject) => {
-        const query = "SELECT name FROM school WHERE name = ?";
-        db.query(query, [name], (error, result) => {
-            if (error) {
-                return reject(error);
-            }
-            else{
-                return resolve(result);
-            }
-        })
-    })
+  return new Promise((resolve, reject) => {
+    const query = "SELECT name FROM school WHERE name = ?";
+    db.query(query, [name], (error, result) => {
+      if (error) return reject(error);
+      return resolve(result && result.length > 0 ? result[0] : null);
+    });
+  });
 }
 
 async function verifySchoolCodeExist(schoolCode) {
-    new Promise((resolve, reject) => {
-        const query = "SELECT schoolcode FROM schoolcode WHERE schoolcode = ?";
-        db.query(query, [schoolCode], (error, result) => {
-            if (error) {
-                return reject(error);
-            }
-            else{
-                return resolve(result);
-            }
-        })
-    })
+  return new Promise((resolve, reject) => {
+    const query = "SELECT schoolcode FROM schoolcode WHERE schoolcode = ?";
+    db.query(query, [schoolCode], (error, result) => {
+      if (error) return reject(error);
+      return resolve(result && result.length > 0 ? result[0] : null);
+    });
+  });
 }
 
 async function schoolSignup(name, email, password, teacherCode, studentCode) {
-    new Promise((resolve, reject) => {
-        const query = "INSERT INTO school (name, email, password, teacherCode, studentCode) VALUES (?, ?, ?, ?, ?)";
-        db.query(query, [name, email, password, teacherCode, studentCode], (error, result) => {
-            if (error) {
-                return reject(error);
-            }
-            else{
-                return resolve(result);
-            }
-        })
-    })
+  return new Promise((resolve, reject) => {
+    const query = "INSERT INTO school (name, email, password, teachercode, studentcode) VALUES (?, ?, ?, ?, ?)";
+    db.query(query, [name, email, password, teacherCode, studentCode], (error, result) => {
+      if (error) return reject(error);
+      return resolve(result);
+    });
+  });
 }
+
+async function credentialModelMainTableLoginVerification(main_table, name) {
+  return new Promise((resolve, reject) => {
+    const query = `SELECT * FROM \`${main_table}\` WHERE name = ?`;
+
+    db.query(query, [name], (error, results) => {
+      if (error) {
+        console.error("Erro na query do Model:", error);
+        return reject(error);
+      }
+
+      if (results && results.length > 0) {
+        return resolve(results[0]); // retorna objeto completo (id, name, password...)
+      } else {
+        return resolve(null);
+      }
+    });
+  });
+}
+
 
 module.exports = {credentialModelWhichSchool, credentialModelTeacherSignup, credentialModelStudentSignup, credentialModelUserSignup, credentialModelSchoolSignup, credentialModelSearchTeacher, credentialModelSearchStudent, credentialModelDoSchoolTeacherRelation, credentialModelDoSchoolStudentRelation, credentialModelVerifySchoolCode, selectId,
   credentialModelMainTableLoginVerification, credentialModelRelationTableLoginVerification,
