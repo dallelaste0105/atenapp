@@ -1,3 +1,4 @@
+import 'package:Atena/connections/connectionsConfig.dart';
 import 'package:Atena/views/userViews/configView/themeNotifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -1,119 +1,32 @@
-import 'dart:convert';
-import 'package:Atena/main.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:Atena/connections/credentialConnection.dart';
+import 'package:Atena/connections/connectionsConfig.dart';
 
-Future <dynamic> getQuestionConnection(subTopic, difficulty, howMany) async {
-  try {
-    final jwtToken = await getToken();
-
-    final url = Uri.parse("$baseUrl/question/getquestion");
-
-    final res = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $jwtToken',
-      },
-      body: jsonEncode({
-        "subTopic": subTopic,
-        "difficulty":difficulty,
-        "howMany":howMany
-      }),
-    );
-
-    final responseBody = jsonDecode(res.body);
-
-    if (res.statusCode == 401 || res.statusCode == 403) {
-      
-      await deleteToken(); 
-
-      navigatorKey.currentState?.pushNamedAndRemoveUntil(
-        '/login', (Route<dynamic> route) => false);
-      
-      return []; 
-    }
-
-    return responseBody;
-
-    
-
-  } catch (error) {
-    return {"error":"error"};
-  }
+Future<dynamic> getQuestionConnection(subTopic, difficulty, howMany) async {
+  return await defaultConnection(
+    "/question/getquestion",
+    "POST",
+    body: {
+      "subTopic": subTopic,
+      "difficulty": difficulty,
+      "howMany": howMany
+    },
+  );
 }
 
-Future <dynamic> addPointsContextConnection(context, accuracy) async {
-  try {
-    final jwtToken = await getToken();
-    final url = Uri.parse("$baseUrl/question/addpoints");
-
-    final res = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $jwtToken',
-      },
-      body: jsonEncode({
-        "context": context,
-        "accuracy": accuracy,
-      }),
-    );
-
-    final responseBody = jsonDecode(res.body);
-
-    if (res.statusCode == 401 || res.statusCode == 403) {
-      
-      await deleteToken(); 
-
-      navigatorKey.currentState?.pushNamedAndRemoveUntil(
-        '/login', (Route<dynamic> route) => false);
-      
-      return []; 
-    }
-
-    return responseBody;
-
-  } catch (error) {
-    return {"error":"error"};
-  }
+Future<dynamic> addPointsContextConnection(context, accuracy) async {
+  return await defaultConnection(
+    "/question/addpoints",
+    "POST",
+    body: {
+      "context": context,
+      "accuracy": accuracy,
+    },
+  );
 }
 
-Future <dynamic> getQuestionInfoConnection() async {
-  try {
-    final jwtToken = await getToken();
-
-    final url = Uri.parse("$baseUrl/question/getquestioninfo");
-
-    final res = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $jwtToken',
-      },
-      body: jsonEncode({}),
-    );
-
-    final responseBody = jsonDecode(res.body);
-
-    if (res.statusCode == 200) {
-      return responseBody['message'] ?? 'Requisição realizada com sucesso.';
-    } 
-    else if (res.statusCode == 401 || res.statusCode == 403) {
-      
-      await deleteToken(); 
-
-      navigatorKey.currentState?.pushNamedAndRemoveUntil(
-        '/login', (Route<dynamic> route) => false);
-      
-      return []; 
-    }
-    else {
-      return responseBody['message'] ?? 'Erro na requisição.';
-    }
-
-  } catch (error) {
-    return {"sexo1":"sexo2"};
-  }
+Future<dynamic> getQuestionInfoConnection() async {
+  return await defaultConnection(
+    "/question/getquestioninfo",
+    "POST",
+    body: {},
+  );
 }
