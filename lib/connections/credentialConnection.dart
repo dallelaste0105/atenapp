@@ -1,9 +1,4 @@
-import 'dart:convert';
-// Importe o arquivo onde está o defaultConnection e o saveTokenCredentialConnection
 import 'package:Atena/connections/connectionsConfig.dart'; 
-import 'package:Atena/main.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 Future<dynamic> signupCredentialConnection(
   name,

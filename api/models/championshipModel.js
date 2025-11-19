@@ -45,22 +45,6 @@ async function createChampionshipModel(name, participantcode, admcode, id, userT
   })
 }
 
-async function searchChampionshipModel(params) {
-  new Promise((resolve, reject) => {
-    
-  })
-}
-
-async function enterChampionshipModel(params) {
-  new Promise((resolve, reject) => {
-    
-  })
-}
-
-async function createChampionshipEventModel(params) {
-  
-}
-
 async function excludeChampionshipModel(championshipName, id, userType) {
   new Promise((resolve, reject) => {
     
@@ -71,8 +55,7 @@ async function excludeChampionshipModel(championshipName, id, userType) {
       }
     })
 
-    if (userType == "school") {
-      const query2 = "DELETE FROM schoolchampionship WHERE (schoolid, championshipid) VALUES (?, ?)";
+      const query2 = "DELETE * FROM championshipparticipant WHERE (schoolid, championshipid) VALUES (?, ?)";
       db.query(query2, [id, championshipId], (error2, result2) => {
         if (error2) {
           return reject(error2);
@@ -87,32 +70,79 @@ async function excludeChampionshipModel(championshipName, id, userType) {
         }
       })
       })
-    }
+    })
+  }
 
-    else{
-      const query4 = "DELETE FROM teacherchampionship WHERE (teacherid, championshipid) VALUES (?, ?)";
-      db.query(query4, [id, championshipId], (error4, result4) => {
-        if (error4) {
-          return reject(error4);
-        }
-      const query5 = "DELETE FROM championship WHERE id = ?";
-      db.query(query5, [championshipId], (error5, result5) => {
-        if (error5) {
-          return reject(error5);
+async function searchChampionshipModel(name) {
+  new Promise((resolve, reject) => {
+    const query = "SELECT * FROM championship WHERE name = ?";
+    db.query(query, [name], (error, result) => {
+      if (error) {
+        return reject(error);
+      } else {
+        return resolve(result);
+      }
+    })
+  })
+}
+
+async function enterChampionshipModel(name, code, hierarchyType, id) {
+  new Promise((resolve, reject) => {
+    const query1 = "SELECT * FROM championship WHERE (name, admcode) VALUES (?,?)";
+    const query3 = "SELECT * FROM championship WHERE (name, participantcode) VALUES (?,?)";
+    const query2 = "INSERT INTO championshipparticipant (participantId, championshipId, hierarchy) VALUES (?,?,?)";
+    if (hierarchyType>2) {
+      db.query(query1, [name, code], (error, result) => {
+        if(error){
+          return reject(error);
         }
         else{
-          return resolve(result5);
+          db.query(query2, [id, result[0][0], hierarchyType], (error2, result2) => {
+            if (error2) {
+              return reject(error2);
+            }
+            else{
+              return resolve(result2);
+            }
+          })
         }
       })
+    } else {
+      db.query(query3, [name, code], (error3, result3)=>{
+        if (error3) {
+          return reject(error3);
+        }
+        else{
+          db.query(query2, [id, result3[0][0], hierarchyType], (error4, result4)=>{
+            if (error4) {
+              return reject(error4);
+            } else {
+              return resolve(result4);
+            }
+          })
+        }
       })
     }
   })
 }
+
+async function createChampionshipEventModel(params) {
+  
+}
+
+async function getYourChampionshipsModel(id) {
+  new Promise((resolve, reject) => {
+    
+  })
+}
+
+
 
 module.exports = {
   createChampionshipModel,
   searchChampionshipModel,
   enterChampionshipModel,
   createChampionshipEventModel,
-  excludeChampionshipModel
+  excludeChampionshipModel,
+  getYourChampionshipsModel
 };

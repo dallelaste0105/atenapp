@@ -37,20 +37,47 @@ async function excludeChampionshipController(req, res) {
 async function searchChampionshipController(req, res) {
     const { id, userType } = req.userData;
     const {name} = req.body;
-    
+    try{
+    const championship = await championshipModel.searchChampionshipModel
+    if (championship) {
+        return res.status(200).json({message:championship});
+    }
+    else{
+        return res.status(500).json({message:"Nenhum campeonato encontrado"});
+    }
+    }
+    catch{
+        return res.status(500).json({message:"Erro crítico"});
+    }
 }
 
 async function enterChampionshipController(req, res) {
     const { id, userType } = req.userData;
-    const {name, code} = req.body;
+    const {name, code, hierarchyType} = req.body;
+    try {
+        if (await championshipModel.enterChampionshipModel(name, code, hierarchyType, id)) {
+            res.status(200).json({message:"Você entrou no campeonato"})
+        }
+        else{
+            res.status(500).json({message:"Erro ao entrar em campeonato"});
+        }
+    } catch (error) {
+        return res.status(500).json({message:"Erro crítico"});
+    }
 }
 
 async function createChampionshipEventController(req, res) {
     const { id, userType } = req.userData;
+    const {championshipName, EventName, finishDate} = req.body;
     
 }
 
-async function getChampionships(req, res) {
+async function createChampionshipEventBlockController(req, res) {
+    const { id, userType } = req.userData;
+    const {eventName, questionIds/*lista com os id's das questões ou licões*/, type} = req.body;
+}
+
+async function getYourChampionshipsController(req, res) {
     const { id, userType } = req.userData;
 
 }
@@ -60,6 +87,6 @@ module.exports = {
     searchChampionshipController,
     enterChampionshipController,
     createChampionshipEventController,
-    getChampionships,
+    getYourChampionshipsController,
     excludeChampionshipController
 };

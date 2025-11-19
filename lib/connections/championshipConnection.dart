@@ -22,13 +22,14 @@ Future<dynamic> searchChampionship(name) async {
   );
 }
 
-Future<dynamic> enterChampionship(name, code) async {
+Future<dynamic> enterChampionship(name, code, hierarchyType) async {
   return await defaultConnection(
     "/championship/enterchampionship",
     "POST",
     body: {
       "name": name,
-      "code": code
+      "code": code,
+      "hierarchyType" : hierarchyType
     },
   );
 }
