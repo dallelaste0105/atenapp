@@ -1,13 +1,13 @@
 const db = require("../db");
 
 async function createClass(name, teachercode, studentcode, schoolcode) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => { 
         const query = "INSERT INTO class (name, teachercode, studentcode, schoolcode) VALUES (?,?,?,?)";
         db.query(query, [name, teachercode, studentcode, schoolcode], (error, result) => {
             if (error) {
-                return reject(error);
+                return resolve(false);
             } else {
-                return resolve(result);
+                return resolve(true);
             }
         })
     })
