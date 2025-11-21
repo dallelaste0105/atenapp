@@ -70,7 +70,6 @@ class _SchoolProfileViewState extends State<SchoolProfileView> {
     final data = snapshot.data as Map<String, dynamic>;
 
     final String userName = data["name"];
-    final String leagueType = data["leagueType"];
 
 
         return Scaffold(
@@ -198,7 +197,7 @@ class _SchoolProfileViewState extends State<SchoolProfileView> {
                                     context, 'Avançado', 'Mat. 32/78'),
                                 _buildStatColumn(context, 'Nível', '54'),
                                 _buildStatColumn(
-                                    context, 'Liga', leagueType), // ← AQUI
+                                    context, 'Liga', "leagueType"), // ← AQUI
                               ],
                             ),
                           ),

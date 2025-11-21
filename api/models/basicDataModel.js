@@ -67,13 +67,13 @@ async function userGeneralBasicDataModel(id) {
 
 async function studentGeneralBasicDataModel(id) {
   new Promise((resolve, reject) => {
-    const query1 = "SELECT * FROM student WHERE id = ?";
-    db.query(query1, [id], (error1, result1) => {
+    const query1 = "SELECT name FROM student WHERE id = ?";
+    const studentName = db.query(query1, [id], (error1, result1) => {
       if (error1) {
         return reject(error1);
       }
       else{
-        return resolve(result1[0]);
+        return resolve({"name":studentName});
       }
     })
   })
@@ -81,13 +81,13 @@ async function studentGeneralBasicDataModel(id) {
 
 async function teacherGeneralBasicDataModel(id) {
   new Promise((resolve, reject) => {
-    const query1 = "SELECT * FROM teacher WHERE id = ?";
-    db.query(query1, [id], (error1, result1) => {
+    const query1 = "SELECT name FROM teacher WHERE id = ?";
+    const teacherName = db.query(query1, [id], (error1, result1) => {
       if (error1) {
         return reject(error1);
       }
       else{
-        return resolve(result1[0]);
+        return resolve({"name":teacherName});
       }
     })
   })
@@ -95,13 +95,13 @@ async function teacherGeneralBasicDataModel(id) {
 
 async function schoolGeneralBasicDataModel(id) {
   new Promise((resolve, reject) => {
-    const query1 = "SELECT * FROM school WHERE id = ?";
-    db.query(query1, [id], (error1, result1) => {
+    const query1 = "SELECT name FROM school WHERE id = ?";
+    const schoolName = db.query(query1, [id], (error1, result1) => {
       if (error1) {
         return reject(error1);
       }
       else{
-        return resolve(result1[0]);
+        return resolve({"name":schoolName});
       }
     })
   })
