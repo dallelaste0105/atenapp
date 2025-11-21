@@ -16,4 +16,12 @@ class ChampionshipClass {
   Future<List<Map<String, dynamic>>> showYourChampionships() async {
     return yourChampionships;
   }
+
+  Future<String> createChampionship(name, participantcode, admcode) async {
+    final response = await createChampionship(name, participantcode, admcode);
+    return response;
+  }
 }
+
+
+//createChampionship(name, participantcode, admcode)

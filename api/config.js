@@ -3,6 +3,7 @@ const questionRoute = require('../api/routes/questionRoute');
 const championshipRoute = require('../api/routes/championshipRoute');
 const leagueRoute = require('../api/routes/leagueRoute');
 const basicData = require('../api/routes/basicDataRoute');
+const classRoute = require('../api/routes/classRoute');
 
 const express = require('express');
 const cors = require('cors');
@@ -22,6 +23,7 @@ app.use('/credential', credentialRoute);
 app.use('/question', questionRoute);
 app.use('/league', leagueRoute);
 app.use('/basicdata', basicData);
+app.use('/class', classRoute);
 
 app.listen(PORT, () => {
  console.log(`Servidor rodando em http://localhost:${PORT}`);
