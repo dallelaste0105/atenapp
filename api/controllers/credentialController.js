@@ -128,12 +128,12 @@ async function credentialControllerLogin(req, res) {
             
             const passwordMatch = await bcrypt.compare(password, teacher.password);
             if (passwordMatch) {
-                const school = await credentialModel.credentialModelRelationTableLoginVerification("schoolteacher", "teacher_id", teacher.id);
-                const createdJwt = createJwt(school.id, userType);
+                const createdJwt = createJwt(teacher.id, userType);   // <-- ERRO: passando 'school.id'
                 return res.status(200).json({message:"teacherLogin" , token: createdJwt });
             }
             return res.status(500).json({ message: 'Credenciais inválidas' });
         }
+
 
         return res.status(500).json({ message: 'Os dados não batem' });
     } catch (error) {

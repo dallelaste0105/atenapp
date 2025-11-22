@@ -1,13 +1,12 @@
 import 'package:Atena/connections/connectionsConfig.dart';
 
-Future<dynamic> createChampionship(name, participantcode, admcode) async {
+Future<dynamic> createChampionshipConnection(name, code) async {
   return await defaultConnection(
     "/championship/createchampionship",
     "POST",
     body: {
       "name": name,
-      "participantcode": participantcode,
-      "admcode": admcode
+      "code": code
     },
   );
 }

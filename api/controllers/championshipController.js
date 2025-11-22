@@ -5,19 +5,24 @@ require('dotenv').config();
 
 
 async function createChampionshipController(req, res) {
-    const { id, userType } = req.userData;
-    const { name, participantcode, admcode } = req.body;
-    try {
-        if(await championshipModel.createChampionshipModel(name, participantcode, admcode, id, userType)){
-            res.status(200).json({message:"Campeonato criado com sucesso"});
-        }
-        else{
-            res.status(500).json({message:"Erro ao criar campeonato"});
-        }
-    } catch (error) {
-        res.status(500).json({message:"Erro crítico!"});
+  const { id, userType } = req.userData;
+  const { name, code } = req.body;
+
+  try {
+    const result = await championshipModel.createChampionshipModel(name, code, id, userType);
+
+    if (result && result.insertId) {
+      return res.status(200).json({ message: "Campeonato criado com sucesso" });
     }
+
+    return res.status(500).json({ message: "Erro ao criar campeonato" });
+
+  } catch (error) {
+    console.log("ERRO NO MODEL:", error);
+    return res.status(500).json({ message: error.message || error });
+  }
 }
+
 
 async function excludeChampionshipController(req, res) {
     const { id, userType } = req.userData;
