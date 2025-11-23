@@ -1,6 +1,6 @@
 import 'package:Atena/views/schoolViews/createClassView/createClassView.dart';
 import 'package:Atena/views/schoolViews/profileView/schoolProfileView.dart';
-import 'package:Atena/views/studentViews/classesView/studentClassesView.dart';
+import 'package:Atena/views/studentViews/classesView/studentClassesAndFriendsView.dart';
 import 'package:Atena/views/studentViews/profileView/studentProfileView.dart';
 import 'package:Atena/views/teacherViews/championshipView/createChampionshipView.dart';
 import 'package:Atena/views/teacherViews/championshipView/myChampionshipsView.dart';

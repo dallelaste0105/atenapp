@@ -1,1 +1,0 @@
-//função para carregar os dados deve ser carregada sempre que a tela tb carregar

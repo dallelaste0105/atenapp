@@ -1,15 +1,26 @@
 import 'package:Atena/connections/championshipConnection.dart';
 
 class ChampionshipClass {
+  List yourChampionships = [];
+  bool firstExecution = true;
   
   Future<String> createChampionship(name, code) async {
     return await createChampionshipConnection(name, code);
   }
 
-  Future<List<dynamic>> getChampionships() async {
-    final yChamps = await getChampionshipsConnection();
-    print(yChamps);
-    return yChamps;
+  Future<List> takeAndSaveChampionships() async {
+    if (firstExecution) {
+      final yChamps = await getChampionshipsConnection();
+      yourChampionships = yChamps;
+      firstExecution = false;
+      print(yourChampionships);
+      return yourChampionships;
+    }
+    return yourChampionships;
+  }
+
+  void reloadState(){
+    firstExecution = true;
   }
 
 }
