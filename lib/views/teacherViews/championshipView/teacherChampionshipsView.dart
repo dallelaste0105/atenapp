@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 
 ChampionshipClass championshipClassInstance = ChampionshipClass();
 
-class myChampionshipsViewScreen extends StatefulWidget {
+class TeacherChampionshipsViewScreen extends StatefulWidget {
   @override
-  State<myChampionshipsViewScreen> createState() => _myChampionshipsViewScreenState();
+  State<TeacherChampionshipsViewScreen> createState() => _TeacherChampionshipsViewScreenState();
 }
 
-class _myChampionshipsViewScreenState extends State<myChampionshipsViewScreen> {
+class _TeacherChampionshipsViewScreenState extends State<TeacherChampionshipsViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: [ElevatedButton(onPressed: (){championshipClassInstance.reloadState();setState((){});}, child: Icon(Icons.replay_outlined))]),
+      appBar: AppBar(actions: [ElevatedButton(onPressed: (){championshipClassInstance.tascreloadState();setState((){});}, child: Icon(Icons.replay_outlined))]),
       body: Padding(
         padding: EdgeInsets.all(40),
         child: Column(

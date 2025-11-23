@@ -2,25 +2,39 @@ import 'package:Atena/connections/championshipConnection.dart';
 
 class ChampionshipClass {
   List yourChampionships = [];
-  bool firstExecution = true;
+  bool tascfirstExecution = true;
+  bool tascefirstExecution = true;
   
   Future<String> createChampionship(name, code) async {
     return await createChampionshipConnection(name, code);
   }
 
   Future<List> takeAndSaveChampionships() async {
-    if (firstExecution) {
+    if (tascfirstExecution) {
       final yChamps = await getChampionshipsConnection();
       yourChampionships = yChamps;
-      firstExecution = false;
-      print(yourChampionships);
+      tascfirstExecution = false;
       return yourChampionships;
     }
     return yourChampionships;
   }
 
-  void reloadState(){
-    firstExecution = true;
+  Future<List> takeAndSaveChampionshipEvent() async {
+    if (tascefirstExecution) {
+      final yChamps = await getChampionshipsConnection();
+      yourChampionships = yChamps;
+      tascefirstExecution = false;
+      return yourChampionships;
+    }
+    return yourChampionships;
+  }
+
+  void tascereloadState(){
+    tascefirstExecution = true;
+  }
+
+  void tascreloadState(){
+    tascfirstExecution = true;
   }
 
 }
