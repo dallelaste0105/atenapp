@@ -5,9 +5,7 @@ class ChampionshipClass {
   bool tascfirstExecution = true;
   bool tascefirstExecution = true;
   bool contentfirstExecution = true;
-  List<String> subjects = [];
-  List<String> topics = [];
-  List<String> subtopics = [];
+  List<Map<String, dynamic>> notConfirmedFilteredQuestions = [];
   
   Future<String> createChampionship(name, code) async {
     return await createChampionshipConnection(name, code);
@@ -42,21 +40,34 @@ class ChampionshipClass {
   }
 
   Future<List> getContents(contentType, contentValue) async {
-    print("contentType recebido = '$contentType'");
-    if (contentType == "subject") {
-      print("Entrou no if");
-      final subjects = await getSubjectsForChampionshipBlockConnection();
-      print(subjects);
-      final correctSubjects = subjects.map((e) => e["subject"]).toList();
-      print(correctSubjects);
-      return correctSubjects;
-    }
-    else if(contentType == "topic"){
-      return await getTopicsForChampionshipBlockConnection(contentValue);
-    }
-    else{
-      return await getSubtopicsForChampionshipBlockConnection(contentValue);
-    }
+
+  if (contentType == "subject") {
+    final subjects = await getSubjectsForChampionshipBlockConnection();
+    return subjects.map((e) => e["subject"].toString()).toList();
   }
 
+  else if (contentType == "topic") {
+    final topics = await getTopicsForChampionshipBlockConnection(contentValue);
+    return topics.map((e) => e["topic"].toString()).toList();
+  }
+
+  else {
+    final subtopics = await getSubtopicsForChampionshipBlockConnection(contentValue);
+    return subtopics.map((e) => e["subtopic"].toString()).toList();
+  }
 }
+
+void addNotConfirmedFilteredQuestions(subtopic, difficulty, howmany){
+  notConfirmedFilteredQuestions.add({"subtopic":subtopic, "difficulty":difficulty, "howmany":howmany});
+  print(notConfirmedFilteredQuestions);
+}
+
+}
+
+/*
+event: id, name, finishdate, championshipid
+
+eventitem: id, eventid, itemtype, itemid <---- excluir
+
+filteredquestioneventitem: id, subtopic, difficulty, howmany
+*/
