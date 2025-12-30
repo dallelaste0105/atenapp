@@ -1,45 +1,75 @@
-# Miscellaneous
-*.class
+###############
+# GERAL
+###############
+.env
+.env.*
 *.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
 
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
+###############
+# IDEs
+###############
+.vscode/
 .idea/
+*.iml
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
+###############
+# NODE / BACKEND
+###############
+backend/node_modules/
+backend/.env
+backend/.env.*
+backend/npm-debug.log*
+backend/yarn-debug.log*
+backend/yarn-error.log*
 
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-.pub-cache/
-.pub/
-/build/
+###############
+# FLUTTER
+###############
+frontend/.dart_tool/
+frontend/.flutter-plugins
+frontend/.flutter-plugins-dependencies
+frontend/.metadata
+frontend/build/
 
-# Symbolication related
-app.*.symbols
+###############
+# ANDROID
+###############
+frontend/android/.gradle/
+frontend/android/local.properties
+frontend/android/app/debug/
+frontend/android/app/profile/
+frontend/android/app/release/
 
-# Obfuscation related
-app.*.map.json
+###############
+# IOS / MACOS
+###############
+frontend/ios/Pods/
+frontend/ios/.symlinks/
+frontend/ios/Flutter/Flutter.framework
+frontend/ios/Flutter/Flutter.podspec
+frontend/ios/Flutter/Generated.xcconfig
+frontend/ios/Flutter/ephemeral/
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+frontend/macos/Flutter/ephemeral/
+frontend/macos/Pods/
+
+###############
+# WINDOWS / LINUX
+###############
+frontend/windows/flutter/
+frontend/linux/flutter/
+
+###############
+# FIREBASE
+###############
+frontend/android/app/google-services.json
+frontend/ios/Runner/GoogleService-Info.plist
+frontend/macos/Runner/GoogleService-Info.plist
+
+# FlutterFire gerado (contém IDs do projeto)
+frontend/lib/firebase_options.dart
+
+###############
+# TEST / CACHE
+###############
+coverage/
