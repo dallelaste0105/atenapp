@@ -72,7 +72,7 @@ async function loginController(req, res) {
         const userDatabasePassword = user[1][0]["password"]; 
         const passwordOk = await bCrypt.compare(noEncriptedPassword, userDatabasePassword);
         if (passwordOk) {
-            const token = jwt.sign({id: user[1][0]["id"], userType: user[0]}, process.env.DB_NAME, {expiresIn: "7d"});
+            const token = jwt.sign({id: user[1][0]["id"], userType: user[0]}, process.env.JWT_SECRET, {expiresIn: "7d"});
             return res.status(200).json({ok: true, msg: "Login realizado com sucesso", jwt: token});
         }
         return res.status(500).json({ok: false, msg: "Senha incorreta"});

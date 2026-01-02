@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teste/config.dart';
-import 'package:teste/connections/connectionFunctions.dart';
 import 'package:teste/connections/credentialConnections.dart';
 import 'package:teste/views/pages/pageTerminal.dart';
 import 'package:teste/views/pages/allPages/signup.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -18,27 +16,18 @@ class _LoginState extends State<Login> {
   final TextEditingController password = TextEditingController();
   final TextEditingController code = TextEditingController();
 
-  Future<dynamic> login(name, password) async{
-    final res = await loginConnection({"name":name, "noEncriptedPassword":password});
-    if (res["ok"]==true) {
-      try {
-        final verifyRes = await verifyUserFCMToken({});
-        String? savedFCMToken = verifyRes["msg"];
-        String? fcmToken = await FirebaseMessaging.instance.getToken();
-        print("FCM DO USUÁRIO: $fcmToken");
-        if (savedFCMToken!=fcmToken || savedFCMToken==null) {
-          await saveUserFCMToken({"FCMToken":fcmToken});
-        }
-      } catch (e) {
-        print("Erro ao obter token FCM: $e");
-      }
-      return 
-        Navigator.push(
-          context, 
-          MaterialPageRoute(builder: (context) => UserPageView())
-        );
-    }
-    else{
+  Future<dynamic> login(name, password) async {
+    print("DEBUG: [UI Login] Botão pressionado. Chamando loginConnection...");
+    final res = await loginConnection({"name": name, "noEncriptedPassword": password});
+    
+    if (res["ok"] == true) {
+      print("DEBUG: [UI Login] Sucesso. Navegando para UserPageView...");
+      return Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => UserPageView()),
+      );
+    } else {
+      print("DEBUG: [UI Login] Falha: ${res['msg']}");
       return ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res["msg"]),
@@ -53,7 +42,6 @@ class _LoginState extends State<Login> {
         ),
       );
     }
-    
   }
 
   @override
@@ -61,8 +49,7 @@ class _LoginState extends State<Login> {
     final config = Provider.of<ConfigClass>(context);
 
     return Scaffold(
-      backgroundColor: config.secundaryColor, 
-
+      backgroundColor: config.secundaryColor,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -72,26 +59,27 @@ class _LoginState extends State<Login> {
               TextField(
                 controller: name,
                 decoration: InputDecoration(
-                  labelText: "Nome", 
-                  filled: true, 
-                  fillColor: Colors.white.withOpacity(0.9)
+                  labelText: "Nome",
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.9),
                 ),
               ),
               const SizedBox(height: 10),
-              
               TextField(
                 controller: password,
                 decoration: InputDecoration(
-                  labelText: "Senha", 
-                  filled: true, 
-                  fillColor: Colors.white.withOpacity(0.9)
+                  labelText: "Senha",
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.9),
                 ),
               ),
-              const SizedBox(height: 10),
               const SizedBox(height: 20),
-              
-              ElevatedButton(onPressed: () async {await login(name.text, password.text);}, child: Text("Login")),
-
+              ElevatedButton(
+                onPressed: () async {
+                  await login(name.text, password.text);
+                },
+                child: Text("Login"),
+              ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: config.primaryColor,
@@ -99,8 +87,8 @@ class _LoginState extends State<Login> {
                 ),
                 onPressed: () {
                   Navigator.push(
-                    context, 
-                    MaterialPageRoute(builder: (context) => Signup())
+                    context,
+                    MaterialPageRoute(builder: (context) => Signup()),
                   );
                 },
                 child: const Text("Fazer signup"),

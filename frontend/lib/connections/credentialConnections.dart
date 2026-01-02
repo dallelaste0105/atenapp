@@ -6,8 +6,8 @@ signupConnection(Map<String, dynamic> body)async{
 
 loginConnection(Map<String, dynamic> body) async {
   final response = await simpleFeedBackConnection("post", "credential/login", body);
-  if (response["ok"] == true) {
-    await saveJWT(response["jwt"]); 
+  if (response["ok"] == true && response["jwt"] != null) {
+    await saveJWT(response["jwt"].toString()); 
   }
   return response; 
 }

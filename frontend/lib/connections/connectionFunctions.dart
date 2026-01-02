@@ -14,7 +14,7 @@ final dio = Dio(
   ),
 );
 
-final baseUrl = "http://192.168.30.145:3000/";
+final baseUrl = "http://192.168.1.2:3000/";
 
 Future<Map<String, dynamic>> simpleFeedBackConnection(
   String type,
@@ -27,7 +27,7 @@ Future<Map<String, dynamic>> simpleFeedBackConnection(
     final options = Options(
       headers: {
         "Content-Type": "application/json",
-        if (token != null) "Authorization": "Bearer $token",
+        if (token != null && token.isNotEmpty) "Authorization": "Bearer $token",
       },
     );
 
@@ -57,10 +57,7 @@ Future<Map<String, dynamic>> simpleFeedBackConnection(
         _isShowingNetError = false;
       });
 
-      return {
-        "ok": false,
-        "networkError": true,
-      };
+      return {"ok": false, "networkError": true};
     }
 
     if (e.response?.statusCode == 401) {
@@ -72,28 +69,23 @@ Future<Map<String, dynamic>> simpleFeedBackConnection(
         (_) => false,
       );
 
-      return {
-        "ok": false,
-        "unauthorized": true,
-      };
+      return {"ok": false, "unauthorized": true};
     }
 
-    return e.response?.data ??
-        {
-          "ok": false,
-          "msg": "Erro inesperado",
-        };
+    return e.response?.data ?? {"ok": false, "msg": "Erro inesperado"};
   }
 }
 
 Future<void> saveJWT(String jwt) async {
   final sp = await SharedPreferences.getInstance();
-  await sp.setString("jwt", jwt);
+  await sp.setString("jwt", jwt.trim());
 }
 
 Future<String?> getJWT() async {
   final sp = await SharedPreferences.getInstance();
-  return sp.getString("jwt");
+  await sp.reload();
+  final token = sp.getString("jwt");
+  return token?.trim();
 }
 
 verifyUserFCMToken(Map<String, dynamic> body) async {

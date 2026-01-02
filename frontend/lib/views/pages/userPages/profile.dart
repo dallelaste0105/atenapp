@@ -11,7 +11,9 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return FutureBuilder(future: getBasicDataConnection({}),  builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return (CircularProgressIndicator());
+            return const Center(
+            child: CircularProgressIndicator(),
+          );
           }
 
           if (snapshot.hasData) {
