@@ -9,7 +9,10 @@ bool hasData = false;
 final TextEditingController questionQuantity = TextEditingController();
 String questionDifficulty = "";
 
+
 class QuestionSubjects extends StatefulWidget{
+  final String questionsContext;
+  const QuestionSubjects({Key? key, required this.questionsContext}) : super(key: key);
   @override
   State<QuestionSubjects> createState() => _QuestionSubjectsState();
 }
