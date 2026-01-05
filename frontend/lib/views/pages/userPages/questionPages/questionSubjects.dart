@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:teste/classes/lessonClass.dart';
-import 'package:teste/views/pages/userPages/lessonPages/lessonTopics.dart';
 import 'package:teste/views/pages/userPages/questionPages/question.dart';
+import 'package:teste/views/pages/userPages/questionPages/questionTopics.dart';
 
 LessonClass lessonClassInstance = LessonClass();
 bool hasData = false;
@@ -26,7 +26,7 @@ class _QuestionSubjectsState extends State<QuestionSubjects> {
               ElevatedButton(onPressed: (){
                 Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Question(questionType: "subjects", questionFilter: [subjectsList], quantity: int.parse(questionQuantity.text), dificulty: questionDifficulty)),
+                        MaterialPageRoute(builder: (context) => Question(questionType: "subjects", questionFilter: [subjectsList], quantity: int.parse(questionQuantity.text), dificulty: questionDifficulty, questionsContext: widget.questionsContext)),
                       );
               }, child: Text("Fazer questões")),
               TextField(controller: questionQuantity, keyboardType: TextInputType.number, inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly], decoration: InputDecoration(labelText: "Quantidade de questões")),
@@ -58,7 +58,7 @@ class _QuestionSubjectsState extends State<QuestionSubjects> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => LessonTopic(subjectName: item)),
+                        MaterialPageRoute(builder: (context) => QuestionTopic(subjectName: item, questionsContext: widget.questionsContext)),
                       );
                     },
                     child: Container(
@@ -84,7 +84,7 @@ class _QuestionSubjectsState extends State<QuestionSubjects> {
               ElevatedButton(onPressed: (){
                 Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Question(questionType: "subjects", questionFilter: [subjectsList],quantity: int.parse(questionQuantity.text), dificulty: questionDifficulty)),
+                        MaterialPageRoute(builder: (context) => Question(questionType: "subjects", questionFilter: [subjectsList],quantity: int.parse(questionQuantity.text), dificulty: questionDifficulty, questionsContext: widget.questionsContext)),
                       );
               }, child: Text("Fazer questões")),
               TextField(controller: questionQuantity, keyboardType: TextInputType.number, inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly], decoration: InputDecoration(labelText: "Quantidade de questões")),
@@ -115,7 +115,7 @@ class _QuestionSubjectsState extends State<QuestionSubjects> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => LessonTopic(subjectName: item)),
+                        MaterialPageRoute(builder: (context) => QuestionTopic(subjectName: item, questionsContext: widget.questionsContext)),
                       );
                     },
                     child: Container(

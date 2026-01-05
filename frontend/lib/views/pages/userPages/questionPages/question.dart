@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:teste/classes/lessonClass.dart';
 import 'package:teste/classes/questionClass.dart';
-import 'package:teste/views/pages/userPages/lessonPages/lessonTopics.dart';
 
 QuestionClass questionClassInstance = QuestionClass();
 bool hasData = false;
@@ -11,7 +9,9 @@ class Question extends StatefulWidget{
   final List questionFilter;//a lista com todas as matérias, tópicos ou subtópicos
   final int quantity;
   final String dificulty;
-  const Question({Key? key, required this.questionType, required this.questionFilter, required this.quantity, required this.dificulty}) : super(key: key);
+  final String questionsContext;
+
+  const Question({Key? key, required this.questionType, required this.questionFilter, required this.quantity, required this.dificulty, required this.questionsContext}) : super(key: key);
   @override
   State<Question> createState() => _QuestionState();
 }

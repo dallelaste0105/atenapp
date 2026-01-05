@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:teste/classes/lessonClass.dart';
 import 'package:teste/views/pages/userPages/lessonPages/lesson.dart';
-import 'package:teste/views/pages/userPages/lessonPages/lessonTopics.dart';
 import 'package:teste/views/pages/userPages/questionPages/question.dart';
 
 LessonClass lessonClassInstance = LessonClass();
@@ -27,7 +26,7 @@ class _QuestionSubTopicState extends State<QuestionSubTopic> {
               ElevatedButton(onPressed: (){
                 Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Question(questionType: "subTopics", questionFilter: [subjectsList], quantity: int.parse(questionQuantity.text), dificulty: questionDifficulty)),
+                        MaterialPageRoute(builder: (context) => Question(questionType: "subTopics", questionFilter: [subjectsList], quantity: int.parse(questionQuantity.text), dificulty: questionDifficulty, questionsContext: widget.questionsContext)),
                       );
               }, child: Text("Fazer questões")),
               TextField(controller: questionQuantity, keyboardType: TextInputType.number, inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly], decoration: InputDecoration(labelText: "Quantidade de questões")),
@@ -85,7 +84,7 @@ class _QuestionSubTopicState extends State<QuestionSubTopic> {
               ElevatedButton(onPressed: (){
                 Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Question(questionType: "subTopics", questionFilter: [subjectsList], quantity: int.parse(questionQuantity.text), dificulty: questionDifficulty)),
+                        MaterialPageRoute(builder: (context) => Question(questionType: "subTopics", questionFilter: [subjectsList], quantity: int.parse(questionQuantity.text), dificulty: questionDifficulty, questionsContext: widget.questionsContext)),
                       );
               }, child: Text("Fazer questões")),
               TextField(controller: questionQuantity, keyboardType: TextInputType.number, inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly], decoration: InputDecoration(labelText: "Quantidade de questões")),
