@@ -1,14 +1,22 @@
 const db = require("../models/credentialModel");
 const bCrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const admin = require("firebase-admin");
+const serviceAccount = require("../serviceAccountKey.json"); 
 
-//main function to decide if data is valid and do the respective signup
+if (!admin.apps.length) {
+    admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount)
+    });
+}
+
 async function signupController(req, res) {
-    const {name, noEncriptedPassword, code} = req.body;
+    let {name, noEncriptedPassword, code} = req.body;
+    if(name) name = name.trim(); 
+
     const password = await bCrypt.hash(noEncriptedPassword, 10);
     console.log(name, password);
     try {
-        //verify null data and if exist users with the same data yet
         if (!name || !noEncriptedPassword) {
             return res.status(500).json({ok:false, msg:"Preencha todos os campos"});
         }
@@ -17,63 +25,51 @@ async function signupController(req, res) {
             return res.status(500).json({ok:false, msg:"Este usuário já existe"});
         }
 
-        //do user signup
         if (!code) {
             const userSignup = await db.signup(name, password, "user");
-            console.log(userSignup);
-            if (userSignup) {
-                console.log(res);
-                return res.status(200).json({ok:true, msg:"Cadastro como usuário realizado com sucesso"});
-            }
-            console.log(res);
+            if (userSignup) return res.status(200).json({ok:true, msg:"Cadastro como usuário realizado com sucesso"});
             return res.status(500).json({ok:false, msg:"Erro ao realizar o cadastro como usuário"});
         }
 
-        //verify whitch school is the code and what is user type
         const whitchSchoolAndUserType = await db.whitchSchoolAndUserType(code);
         
-        //do student signup
         if(whitchSchoolAndUserType[0]=="student"){
             const studentSignup = await db.signup(name, password, whitchSchoolAndUserType[0]);
-            if (studentSignup) {
-                return res.status(200).json({ok:true, msg:"Cadastro como aluno realizado com sucesso"});
-            }
+            if (studentSignup) return res.status(200).json({ok:true, msg:"Cadastro como aluno realizado com sucesso"});
             return res.status(500).json({ok:false, msg:"Erro ao realizar o cadastro como estudante"});
         }
-
-        //do teacher signup
         else if(whitchSchoolAndUserType[0]=="teacher"){
             const teacherSignup = await db.signup(name, password, whitchSchoolAndUserType[0]);
-            if (teacherSignup) {
-                return res.status(200).json({ok:true, msg:"Cadastro como professor realizado com sucesso"});
-            }
+            if (teacherSignup) return res.status(200).json({ok:true, msg:"Cadastro como professor realizado com sucesso"});
             return res.status(500).json({ok:false, msg:"Erro ao realizar o cadastro como professor"});
         }
 
-        //do school signup
-        else{
-            const schoolSignup = await db.signup(name, password, "school");
-            if (schoolSignup) {
-                return res.status(200).json({ok:true, msg:"Cadastro como escola realizado com sucesso"});
+        if (whitchSchoolAndUserType==false) {
+            const ok = await db.validSchool(code);
+            if (ok) {
+                const schoolSignup = await db.signup(name, password, "school");
+                if (schoolSignup) return res.status(200).json({ok:true, msg:"Cadastro como escola realizado com sucesso"});
+                return res.status(500).json({ok:false, msg:"Erro ao realizar o cadastro como escola"});
             }
-            return res.status(500).json({ok:false, msg:"Erro ao realizar o cadastro como escola"});
+            return res.status(500).json({ok:false, msg:"Código inválido"});
         }
         
     } catch (error) {
         return res.status(500).json({ok:false, msg:"Erro crítico"});
     }
-    
 }
 
 async function loginController(req, res) {
-    const {name, noEncriptedPassword} = req.body;
+    let {name, noEncriptedPassword} = req.body;
+    if(name) name = name.trim();
     try {
         const user = await db.findUser(name);
         const userDatabasePassword = user[1][0]["password"]; 
         const passwordOk = await bCrypt.compare(noEncriptedPassword, userDatabasePassword);
+        
         if (passwordOk) {
-            const token = jwt.sign({id: user[1][0]["id"], userType: user[0]}, process.env.JWT_SECRET, {expiresIn: "7d"});
-            return res.status(200).json({ok: true, msg: "Login realizado com sucesso", jwt: token});
+            const token = jwt.sign({id: user[1][0]["id"], userType: user[0]}, process.env.DB_NAME, {expiresIn: "7d"});
+            return res.status(200).json({ok: true, msg: user[0], jwt: token});
         }
         return res.status(500).json({ok: false, msg: "Senha incorreta"});
     } catch (error) {
@@ -81,9 +77,64 @@ async function loginController(req, res) {
     }
 }
 
+async function LARCARCODIGOESTUDANTE(req, res) {
+    const {id, userType} = req.user;
+    const {cod} = req.body;
+    try {
+        const ok = await db.LARCARCODIGOESTUDANTE(id, cod);
+        if (ok) return res.status(200).json({ok:true, msg:"Código de estudante criado com sucesso"});
+        return res.status(500).json({ok:false, msg:"Erro ao criar código de estudante"});
+    } catch (error) { return res.status(500).json({ok:false, msg:"Erro crítico"}); }
+}
+
+async function LARCARCODIGOPROFESSOR(req, res) {
+    const {id, userType} = req.user;
+    const {cod} = req.body;
+    try {
+        const ok = await db.LARCARCODIGOPROFESSOR(id, cod);
+        if (ok) return res.status(200).json({ok:true, msg:"Código de professor criado com sucesso"});
+        return res.status(500).json({ok:false, msg:"Erro ao criar código de professor"});
+    } catch (error) { return res.status(500).json({ok:false, msg:"Erro crítico"}); }
+}
+
+async function sendNotificationController(req, res) {
+    const {id, userType} = req.user; 
+    try {
+        const usersTokens = await db.sendNotificationModel(id);
+        if (!usersTokens || usersTokens.length === 0) {
+             return res.status(200).json({ok:false, msg:"Nenhum aluno com token encontrado para esta escola."});
+        }
+
+        const message = {
+            notification: {
+                title: 'Aviso da Escola',
+                body: 'Teste de notificação enviado agora!'
+            },
+            tokens: usersTokens,
+        };
+        const response = await admin.messaging().sendEachForMulticast(message);
+        if (response.failureCount > 0) {
+            const failedTokens = [];
+            response.responses.forEach((resp, idx) => {
+                if (!resp.success) {
+                    console.log(`[DEBUG FIREBASE] Erro no token ${idx}:`, resp.error);
+                }
+            });
+        }
+        return res.status(200).json({ok:true, msg:`Enviado: ${response.successCount}, Falhas: ${response.failureCount}`});
+    } catch (error) {
+        return res.status(500).json({ok:false, msg:"Erro ao enviar notificação"});
+    }
+}
+
 async function saveUserFCMTokenController(req, res) {
+    if (!req.user) {
+        return res.status(401).json({ok:false, msg:"Token inválido ou não enviado"});
+    }
+
     const {FCMToken} = req.body;
     const {id, userType} = req.user;
+
     try {
         const ok = await db.saveUserFCMTokenModel(id, userType, FCMToken);
         if (ok) {
@@ -99,10 +150,8 @@ async function verifyUserFCMTokenController(req, res) {
     const {id, userType} = req.user;
     try {
         const FCM = await db.verifyUserFCMTokenModel(id, userType);
-        if (FCM != null) {
-                return res.status(200).json({ok:true, msg:FCM});
-            }
-            return res.status(500).json({ok:false, msg:"FCM não pode ser encontrado"});
+        if (FCM != null) return res.status(200).json({ok:true, msg:FCM});
+        return res.status(500).json({ok:false, msg:"FCM não pode ser encontrado"});
     } catch (error) {
         return res.status(500).json({ok:false, msg:"Erro crítico"});
     }
@@ -112,5 +161,8 @@ module.exports = {
     signupController,
     loginController,
     saveUserFCMTokenController,
-    verifyUserFCMTokenController
+    verifyUserFCMTokenController,
+    LARCARCODIGOESTUDANTE,
+    LARCARCODIGOPROFESSOR,
+    sendNotificationController
 }

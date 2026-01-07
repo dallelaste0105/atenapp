@@ -11,28 +11,26 @@ import 'firebase_options.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform
+    options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  NotificationSettings settings = await messaging.requestPermission(
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  await messaging.requestPermission(
     alert: true,
     badge: true,
     sound: true,
   );
-
-  if (settings.authorizationStatus == AuthorizationStatus.authorized ||
-      settings.authorizationStatus == AuthorizationStatus.provisional) {
-    final token = await messaging.getToken();
-    print('FCM TOKEN: $token');
-  } else {
-    print('Permissão de notificação negada');
-  }
 
   runApp(
     ChangeNotifierProvider(
@@ -51,7 +49,7 @@ class MyApp extends StatelessWidget {
       builder: (context, config, child) {
         return MaterialApp(
           navigatorKey: navigatorKey,
-         title: 'Projeto Teste',
+          title: 'Projeto Teste',
           debugShowCheckedModeBanner: false,
           theme: config.getThemeData(),
           home: FutureBuilder<String?>(
