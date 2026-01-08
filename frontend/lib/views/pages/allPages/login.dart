@@ -35,16 +35,17 @@ class _LoginState extends State<Login> {
         // Erro silencioso ou log interno se necessário
       }
 
-      if (res["msg"] == "user") {
-        return Navigator.push(context, MaterialPageRoute(builder: (context) => UserPageView()));
-      } else if (res["msg"] == "student") {
-        return Navigator.push(context, MaterialPageRoute(builder: (context) => StudentPageView()));
-      } else if (res["msg"] == "teacher") {
-        return Navigator.push(context, MaterialPageRoute(builder: (context) => TeacherPageView()));
-      } else if (res["msg"] == "school") {
-        return Navigator.push(context, MaterialPageRoute(builder: (context) => SchoolPageView()));
-      }
+      final String userType = res["user"]["type"];
 
+      if (userType == "user") {
+        return Navigator.push(context, MaterialPageRoute(builder: (_) => UserPageView()));
+      } else if (userType == "student") {
+        return Navigator.push(context, MaterialPageRoute(builder: (_) => StudentPageView()));
+      } else if (userType == "teacher") {
+        return Navigator.push(context, MaterialPageRoute(builder: (_) => TeacherPageView()));
+      } else if (userType == "school") {
+        return Navigator.push(context, MaterialPageRoute(builder: (_) => SchoolPageView()));
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(res["msg"]), backgroundColor: Colors.red),

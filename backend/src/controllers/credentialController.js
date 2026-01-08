@@ -32,19 +32,8 @@ async function signupController(req, res) {
         }
 
         const whitchSchoolAndUserType = await db.whitchSchoolAndUserType(code);
-        
-        if(whitchSchoolAndUserType[0]=="student"){
-            const studentSignup = await db.signup(name, password, whitchSchoolAndUserType[0]);
-            if (studentSignup) return res.status(200).json({ok:true, msg:"Cadastro como aluno realizado com sucesso"});
-            return res.status(500).json({ok:false, msg:"Erro ao realizar o cadastro como estudante"});
-        }
-        else if(whitchSchoolAndUserType[0]=="teacher"){
-            const teacherSignup = await db.signup(name, password, whitchSchoolAndUserType[0]);
-            if (teacherSignup) return res.status(200).json({ok:true, msg:"Cadastro como professor realizado com sucesso"});
-            return res.status(500).json({ok:false, msg:"Erro ao realizar o cadastro como professor"});
-        }
 
-        if (whitchSchoolAndUserType==false) {
+        if (whitchSchoolAndUserType === false) {
             const ok = await db.validSchool(code);
             if (ok) {
                 const schoolSignup = await db.signup(name, password, "school");
@@ -53,27 +42,65 @@ async function signupController(req, res) {
             }
             return res.status(500).json({ok:false, msg:"Código inválido"});
         }
+
+        if (whitchSchoolAndUserType[0] === "student") {
+            const studentSignup = await db.signup(name, password, "student");
+            if (studentSignup) return res.status(200).json({ok:true, msg:"Cadastro como aluno realizado com sucesso"});
+            return res.status(500).json({ok:false, msg:"Erro ao realizar o cadastro como estudante"});
+        }
+
+        if (whitchSchoolAndUserType[0] === "teacher") {
+            const teacherSignup = await db.signup(name, password, "teacher");
+            if (teacherSignup) return res.status(200).json({ok:true, msg:"Cadastro como professor realizado com sucesso"});
+            return res.status(500).json({ok:false, msg:"Erro ao realizar o cadastro como professor"});
+        }
+
         
     } catch (error) {
-        return res.status(500).json({ok:false, msg:"Erro crítico"});
+    console.error("[SIGNUP ERROR]", error);
+    return res.status(500).json({ok:false, msg:"Erro crítico"});
     }
 }
 
 async function loginController(req, res) {
-    let {name, noEncriptedPassword} = req.body;
-    if(name) name = name.trim();
+    let { name, noEncriptedPassword } = req.body;
+    if (name) name = name.trim();
+
     try {
-        const user = await db.findUser(name);
-        const userDatabasePassword = user[1][0]["password"]; 
-        const passwordOk = await bCrypt.compare(noEncriptedPassword, userDatabasePassword);
-        
-        if (passwordOk) {
-            const token = jwt.sign({id: user[1][0]["id"], userType: user[0]}, process.env.DB_NAME, {expiresIn: "7d"});
-            return res.status(200).json({ok: true, msg: user[0], jwt: token});
+        const result = await db.findUser(name);
+        if (!result || !result[1] || result[1].length === 0) {
+            return res.status(404).json({ ok: false, msg: "Usuário não encontrado" });
         }
-        return res.status(500).json({ok: false, msg: "Senha incorreta"});
+
+        const userType = result[0];
+        const userData = result[1][0];
+        const userDatabasePassword = userData["password"];
+
+        const passwordOk = await bCrypt.compare(noEncriptedPassword, userDatabasePassword);
+
+        if (passwordOk) {
+            const token = jwt.sign(
+                { id: userData["id"], userType: userType },
+                process.env.JWT_SECRET,
+                { expiresIn: "7d" }
+            );
+
+            return res.status(200).json({
+                ok: true,
+                jwt: token,
+                user: {
+                    id: userData["id"],
+                    name: userData["name"],
+                    type: userType
+                }
+            });
+        }
+
+        return res.status(401).json({ ok: false, msg: "Senha incorreta" });
+
     } catch (error) {
-        return res.status(500).json({ok: false, msg: "Usuário não encontrado"});
+        console.error(error);
+        return res.status(500).json({ ok: false, msg: "Erro interno no servidor" });
     }
 }
 

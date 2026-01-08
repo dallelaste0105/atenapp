@@ -26,17 +26,22 @@ async function whitchSchoolAndUserType(code) {
     return new Promise((resolve, reject) => {
         const query1 = "SELECT id FROM school WHERE studentcode = ?";
         const query2 = "SELECT id FROM school WHERE teachercode = ?";
+
         db.query(query1, [code], (error1, result1) => {
-            if (error1) return reject(false); 
+            if (error1) return reject(error1);
+
             db.query(query2, [code], (error2, result2) => {
-                if (error2) return reject(false);
-                if (result1 && result1.length > 0) return resolve(["student", result1]);
-                else if (result2 && result2.length > 0) return resolve(["teacher", result2]);
-                else return resolve(false); 
-            })
-        })
-    })
+                if (error2) return reject(error2);
+
+                if (result1.length > 0) return resolve(["student", result1]);
+                if (result2.length > 0) return resolve(["teacher", result2]);
+
+                return resolve(false);
+            });
+        });
+    });
 }
+
 
 async function signup(name, password, userType) {
     return new Promise((resolve, reject) => {

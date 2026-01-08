@@ -73,3 +73,5 @@ frontend/lib/firebase_options.dart
 # TEST / CACHE
 ###############
 coverage/
+
+backend/src/serviceAccountKey.json

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:teste/views/pages/allPages/config.dart';
+import 'package:teste/views/pages/schoolPages/sendNotifications.dart';
 import 'package:teste/views/pages/userPages/lessonPages/lessonSubjects.dart';
 import 'package:teste/views/pages/userPages/profilePages/profile.dart';
 
@@ -22,7 +23,7 @@ class StudentPageView extends StatelessWidget {
       controller: PageController(initialPage: 0),
       scrollDirection: Axis.horizontal,
       children: [
-        
+        Config()
       ],
     );
 }
@@ -44,7 +45,7 @@ class SchoolPageView extends StatelessWidget {
       controller: PageController(initialPage: 0),
       scrollDirection: Axis.horizontal,
       children: [
-        
+        CreateCodes()
       ],
     );
 }
